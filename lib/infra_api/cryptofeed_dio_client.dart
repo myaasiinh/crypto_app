@@ -1,16 +1,22 @@
-import 'package:dio/dio.dart';
+import 'dart:async';
+import 'dart:io'; // Untuk mengakses HttpException
+import 'package:crypto_app/infra_api/crypto_feed_services.dart';
+import 'package:crypto_app/utils/handle_error_utils.dart';
 
-class CryptoFeedDioClient {
-  final Dio dio;
+class CryptoFeedHttpClient {
+  final CryptoFeedService _cryptoFeedService;
 
-  CryptoFeedDioClient({required this.dio});
+  CryptoFeedHttpClient(this._cryptoFeedService);
 
-  Future<Response<dynamic>> getCryptoFeed() async {
+  Stream<HttpClientResult> get() async* {
     try {
-      final response = await dio.get('https://min-api.cryptocompare.com/');
-      return response;
-    } catch (e) {
-      throw Exception('Failed to fetch crypto feed: $e');
+      yield HttpClientResult.success(await _cryptoFeedService.get());
+    } catch (error) {
+      if (error is SocketException) { // Menangani masalah koneksi
+        yield HttpClientResult.failure(ConnectivityException());
+      } else {
+        yield HttpClientResult.failure(InvalidDataException());
+      }
     }
   }
 }
