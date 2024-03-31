@@ -1,4 +1,4 @@
-import 'package:crypto_app/infra_api/cryptofeed_dio_client.dart';
+import 'package:crypto_app/infra_api/crypto_feed_dio_client.dart';
 
 class CryptoFeedClient {
   final CryptoFeedHttpClient _httpClient;
