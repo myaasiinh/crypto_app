@@ -1,13 +1,13 @@
-class CryptoFeedModel {
-    String message;
-    int type;
-    MetaData metaData;
-    List<dynamic> sponsoredData;
-    List<Datum> data;
-    RateLimit rateLimit;
-    bool hasWarning;
+class CryptoFeedModelDomain {
+    final String message;
+    final int type;
+    final MetaData metaData;
+    final List<dynamic> sponsoredData;
+    final List<Datum> data;
+    final RateLimit rateLimit;
+    final bool hasWarning;
 
-    CryptoFeedModel({
+    CryptoFeedModelDomain({
         required this.message,
         required this.type,
         required this.metaData,
@@ -20,9 +20,9 @@ class CryptoFeedModel {
 }
 
 class Datum {
-    CoinInfo coinInfo;
-    Raw raw;
-    Display display;
+    final CoinInfo coinInfo;
+    final Raw raw;
+    final Display display;
 
     Datum({
         required this.coinInfo,
@@ -33,23 +33,23 @@ class Datum {
 }
 
 class CoinInfo {
-    String id;
-    String name;
-    String fullName;
-    String internal;
-    String imageUrl;
-    String url;
-    String algorithm;
-    String proofType;
-    Rating rating;
-    double netHashesPerSecond;
-    int blockNumber;
-    double blockTime;
-    double blockReward;
-    DateTime assetLaunchDate;
-    double maxSupply;
-    int type;
-    String documentType;
+    final String id;
+    final String name;
+    final String fullName;
+    final String internal;
+    final String imageUrl;
+    final String url;
+    final String algorithm;
+    final String proofType;
+    final Rating rating;
+    final double netHashesPerSecond;
+    final int blockNumber;
+    final double blockTime;
+    final double blockReward;
+    final DateTime assetLaunchDate;
+    final double maxSupply;
+    final int type;
+    final String documentType;
 
     CoinInfo({
         required this.id,
@@ -74,7 +74,7 @@ class CoinInfo {
 }
 
 class Rating {
-    Weiss weiss;
+    final Weiss weiss;
 
     Rating({
         required this.weiss,
@@ -83,9 +83,9 @@ class Rating {
 }
 
 class Weiss {
-    String rating;
-    String technologyAdoptionRating;
-    String marketPerformanceRating;
+    final String rating;
+    final String technologyAdoptionRating;
+    final String marketPerformanceRating;
 
     Weiss({
         required this.rating,
@@ -96,7 +96,7 @@ class Weiss {
 }
 
 class Display {
-    DisplayUsd usd;
+    final DisplayUsd usd;
 
     Display({
         required this.usd,
@@ -105,51 +105,51 @@ class Display {
 }
 
 class DisplayUsd {
-    String fromsymbol;
-    String tosymbol;
-    String market;
-    String lastmarket;
-    String toptiervolume24Hour;
-    String toptiervolume24Hourto;
-    String lasttradeid;
-    String price;
-    String lastupdate;
-    String lastvolume;
-    String lastvolumeto;
-    String volumehour;
-    String volumehourto;
-    String openhour;
-    String highhour;
-    String lowhour;
-    String volumeday;
-    String volumedayto;
-    String openday;
-    String highday;
-    String lowday;
-    String volume24Hour;
-    String volume24Hourto;
-    String open24Hour;
-    String high24Hour;
-    String low24Hour;
-    String change24Hour;
-    String changepct24Hour;
-    String changeday;
-    String changepctday;
-    String changehour;
-    String changepcthour;
-    String conversiontype;
-    String conversionsymbol;
-    String conversionlastupdate;
-    String supply;
-    String mktcap;
-    String mktcappenalty;
-    String circulatingsupply;
-    String circulatingsupplymktcap;
-    String totalvolume24H;
-    String totalvolume24Hto;
-    String totaltoptiervolume24H;
-    String totaltoptiervolume24Hto;
-    String imageurl;
+    final String fromsymbol;
+    final String tosymbol;
+    final String market;
+    final String lastmarket;
+    final String toptiervolume24Hour;
+    final String toptiervolume24Hourto;
+    final String lasttradeid;
+    final String price;
+    final String lastupdate;
+    final String lastvolume;
+    final String lastvolumeto;
+    final String volumehour;
+    final String volumehourto;
+    final String openhour;
+    final String highhour;
+    final String lowhour;
+    final String volumeday;
+    final String volumedayto;
+    final String openday;
+    final String highday;
+    final String lowday;
+    final String volume24Hour;
+    final String volume24Hourto;
+    final String open24Hour;
+    final String high24Hour;
+    final String low24Hour;
+    final String change24Hour;
+    final String changepct24Hour;
+    final String changeday;
+    final String changepctday;
+    final String changehour;
+    final String changepcthour;
+    final String conversiontype;
+    final String conversionsymbol;
+    final String conversionlastupdate;
+    final String supply;
+    final String mktcap;
+    final String mktcappenalty;
+    final String circulatingsupply;
+    final String circulatingsupplymktcap;
+    final String totalvolume24H;
+    final String totalvolume24Hto;
+    final String totaltoptiervolume24H;
+    final String totaltoptiervolume24Hto;
+    final String imageurl;
 
     DisplayUsd({
         required this.fromsymbol,
@@ -202,7 +202,7 @@ class DisplayUsd {
 }
 
 class Raw {
-    RawUsd usd;
+    final RawUsd usd;
 
     Raw({
         required this.usd,
@@ -211,54 +211,54 @@ class Raw {
 }
 
 class RawUsd {
-    String type;
-    String market;
-    String fromsymbol;
-    String tosymbol;
-    String flags;
-    String lastmarket;
-    double median;
-    double toptiervolume24Hour;
-    double toptiervolume24Hourto;
-    String lasttradeid;
-    double price;
-    int lastupdate;
-    double lastvolume;
-    double lastvolumeto;
-    double volumehour;
-    double volumehourto;
-    double openhour;
-    double highhour;
-    double lowhour;
-    double volumeday;
-    double volumedayto;
-    double openday;
-    double highday;
-    double lowday;
-    double volume24Hour;
-    double volume24Hourto;
-    double open24Hour;
-    double high24Hour;
-    double low24Hour;
-    double change24Hour;
-    double changepct24Hour;
-    double changeday;
-    double changepctday;
-    double changehour;
-    double changepcthour;
-    String conversiontype;
-    String conversionsymbol;
-    int conversionlastupdate;
-    double supply;
-    double mktcap;
-    int mktcappenalty;
-    double circulatingsupply;
-    double circulatingsupplymktcap;
-    double totalvolume24H;
-    double totalvolume24Hto;
-    double totaltoptiervolume24H;
-    double totaltoptiervolume24Hto;
-    String imageurl;
+    final String type;
+    final String market;
+    final String fromsymbol;
+    final String tosymbol;
+    final String flags;
+    final String lastmarket;
+    final double median;
+    final double toptiervolume24Hour;
+    final double toptiervolume24Hourto;
+    final String lasttradeid;
+    final double price;
+    final int lastupdate;
+    final double lastvolume;
+    final double lastvolumeto;
+    final double volumehour;
+    final double volumehourto;
+    final double openhour;
+    final double highhour;
+    final double lowhour;
+    final double volumeday;
+    final double volumedayto;
+    final double openday;
+    final double highday;
+    final double lowday;
+    final double volume24Hour;
+    final double volume24Hourto;
+    final double open24Hour;
+    final double high24Hour;
+    final double low24Hour;
+    final double change24Hour;
+    final double changepct24Hour;
+    final double changeday;
+    final double changepctday;
+    final double changehour;
+    final double changepcthour;
+    final String conversiontype;
+    final String conversionsymbol;
+    final int conversionlastupdate;
+    final double supply;
+    final double mktcap;
+    final int mktcappenalty;
+    final double circulatingsupply;
+    final double circulatingsupplymktcap;
+    final double totalvolume24H;
+    final double totalvolume24Hto;
+    final double totaltoptiervolume24H;
+    final double totaltoptiervolume24Hto;
+    final String imageurl;
 
     RawUsd({
         required this.type,
@@ -314,7 +314,7 @@ class RawUsd {
 }
 
 class MetaData {
-    int count;
+    final int count;
 
     MetaData({
         required this.count,
