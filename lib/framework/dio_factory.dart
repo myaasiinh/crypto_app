@@ -6,7 +6,7 @@ class HttpFactory {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
-          options.headers["Authorization"] = "Apikey 629946b446ccdb20b8606f44756f95c068c09bdac5d021bbc82cf66dd1453eaa";
+          options.headers["Authorization"] = "Apikey 1fead772948dffa4d8f1f0a969b16f0f5acf3090c7efeb03368a61853944f899";
           return handler.next(options);
         },
       ),
