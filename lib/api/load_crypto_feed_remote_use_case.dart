@@ -1,3 +1,5 @@
+// ignore_for_file: override_on_non_overriding_member
+
 import 'package:crypto_app/api/crypto_feed_client.dart';
 import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/domain/crypto_feed_domain.dart';
