@@ -2,16 +2,16 @@ import 'package:crypto_app/domain/crypto_feed.dart';
 
 enum ResultType { success, failure }
 
-class CryptoFeedResult {
+class LoadCryptoFeedUseCase {
   final ResultType type;
   final List<CryptoFeedModel>? data;
   final dynamic error;
 
-  CryptoFeedResult.success(this.data)
+  LoadCryptoFeedUseCase.success(this.data)
       : type = ResultType.success,
         error = null;
 
-  CryptoFeedResult.failure(this.error)
+  LoadCryptoFeedUseCase.failure(this.error)
       : type = ResultType.failure,
         data = null;
 }

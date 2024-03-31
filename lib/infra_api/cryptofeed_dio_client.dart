@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io'; // Untuk mengakses HttpException
+import 'package:crypto_app/api/crypto_feed_client.dart';
 import 'package:crypto_app/infra_api/crypto_feed_services.dart';
-import 'package:crypto_app/utils/handle_error_utils.dart';
 
 class CryptoFeedHttpClient {
   final CryptoFeedService _cryptoFeedService;

@@ -40,3 +40,6 @@ class InvalidDataException implements Exception {
 
   InvalidDataException({this.message = 'Invalid data'}) : super();
 }
+
+// Exception untuk menangani error tidak diketahui
+class UnknownError implements Exception {}

@@ -3,10 +3,9 @@ import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/domain/crypto_feed.dart';
 import 'package:crypto_app/domain/load_crypto_feed_usecase.dart';
 import 'package:crypto_app/infra_api/cryptofeed_dio_client.dart';
-import 'package:crypto_app/utils/handle_error_utils.dart';
 
 
-abstract class LoadCryptoFeedRemoteUseCase implements LoadCryptoFeedUseCase {
+ abstract class LoadCryptoFeedRemoteUseCase implements LoadCryptoFeedUseCase {
   final CryptoFeedHttpClient _httpClient;
 
   LoadCryptoFeedRemoteUseCase(this._httpClient);
