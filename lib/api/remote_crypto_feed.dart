@@ -1,13 +1,17 @@
 import 'package:crypto_app/domain/crypto_feed.dart';
-import 'package:crypto_app/infra_api/crypto_feed_services.dart';
 
+enum ResultType { success, failure }
 
-class RemoteCryptoFeed {
-  final CryptoFeedService cryptoFeedService;
+class CryptoFeedResult {
+  final ResultType type;
+  final List<CryptoFeedModel>? data;
+  final dynamic error;
 
-  RemoteCryptoFeed({required this.cryptoFeedService});
+  CryptoFeedResult.success(this.data)
+      : type = ResultType.success,
+        error = null;
 
-  Future<List<CoinItem>> fetchCryptoFeed() async {
-    return await cryptoFeedService.fetchCryptoFeed();
-  }
+  CryptoFeedResult.failure(this.error)
+      : type = ResultType.failure,
+        data = null;
 }

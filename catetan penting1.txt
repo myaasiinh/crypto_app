@@ -1,0 +1,234 @@
+
+tech stack : dio, clean architecture, dependency injection manual tanpa lib dan state management
+
+struktur project &  files :
+
+a. infra_api :
+
+1. crypto_feed_service -> buat end point kalo diflutter tinggal sesuaikan aja, kalo gaperlu, yaudah dihapus aja
+2. crypto_feed_dio_client -> sama kayak repository implementation
+3. crypto_feed_response -> response model yang berisi anotasi json
+
+b. api :
+
+1. remote_crpyto_feed -> remote model
+2. <cryptofeed_client.dart> -> interface (sama kayak interface repository)
+3. load _crpyto_feed_remote_use_cases
+
+c. domain :
+
+1. crpyto_feed -> domain model
+2. <load_crpyto_feed_usecases> -> interface
+
+d. presentation :
+1. crpytofeed_item_viewmodel -> presentation model buat ditampilin di UI
+
+e. ui :
+1. crypto_feed_screen
+
+jika kode dibawah ini semua dirubah ke flutter menyesuaikan struktur project diatas bagaimana? :
+
+package com.hightech.cryptoapp.crypto.feed.http
+
+import com.squareup.moshi.Json
+
+data class RemoteRootCryptoFeed(
+    @Json(name = "Data")
+    val data: List<RemoteCryptoFeedItem>
+)
+
+data class RemoteCryptoFeedItem(
+    @Json(name = "CoinInfo")
+    val remoteCoinInfo: RemoteCoinInfo,
+    @Json(name = "RAW")
+    val remoteRaw: RemoteDisplay
+)
+
+data class RemoteCoinInfo(
+    @Json(name = "Id")
+    val id: String?,
+    @Json(name = "Name")
+    val name: String?,
+    @Json(name = "FullName")
+    val fullName: String?,
+    @Json(name = "ImageUrl")
+    val imageUrl: String?,
+)
+
+data class RemoteDisplay(
+    @Json(name = "USD")
+    val usd: RemoteUsd
+)
+
+data class RemoteUsd(
+    @Json(name = "PRICE")
+    val price: Double?,
+    @Json(name = "CHANGEPCTDAY")
+    val changePctDay: Float?
+)
+package com.hightech.cryptoapp.crypto.feed.http
+
+import retrofit2.http.GET
+import retrofit2.http.Query
+
+interface CryptoFeedService {
+    @GET("data/top/totaltoptiervolfull")
+    suspend fun get(
+        @Query("limit") limit: Int? = 20,
+        @Query("tsym") tsym: String? = "USD"
+    ): RemoteRootCryptoFeed
+}
+package com.hightech.cryptoapp.crypto.feed.http
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import retrofit2.HttpException
+import java.io.IOException
+
+class CryptoFeedRetrofitHttpClient constructor(
+    private val cryptoFeedService: CryptoFeedService
+): CryptoFeedHttpClient {
+    override fun get(): Flow<HttpClientResult> = flow {
+        try {
+            emit(HttpClientResult.Success(cryptoFeedService.get()))
+        } catch (throwable: Throwable) {
+            when(throwable) {
+                is IOException -> {
+                    emit(HttpClientResult.Failure(ConnectivityException()))
+                }
+                is HttpException -> {
+                    if (throwable.code() == 422) {
+                        emit(HttpClientResult.Failure(InvalidDataException()))
+                    }
+                }
+                else -> {
+                    emit(HttpClientResult.Failure(InvalidDataException()))
+                }
+            }
+        }
+    }.flowOn(Dispatchers.IO)
+}
+package com.hightech.cryptoapp.crypto.feed.http
+
+import kotlinx.coroutines.flow.Flow
+
+sealed class HttpClientResult {
+    data class Success(val root: RemoteRootCryptoFeed) : HttpClientResult()
+    data class Failure(val throwable: Throwable) : HttpClientResult()
+}
+
+class InvalidDataException : Throwable()
+class ConnectivityException : Throwable()
+
+interface CryptoFeedHttpClient {
+    fun get(): Flow<HttpClientResult>
+}
+package com.hightech.cryptoapp.crypto.feed.http.usecases
+
+import android.util.Log
+import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedItemsMapper
+import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedLoader
+import com.hightech.cryptoapp.crypto.feed.domain.CryptoFeedResult
+import com.hightech.cryptoapp.crypto.feed.http.ConnectivityException
+import com.hightech.cryptoapp.crypto.feed.http.CryptoFeedHttpClient
+import com.hightech.cryptoapp.crypto.feed.http.HttpClientResult
+import com.hightech.cryptoapp.crypto.feed.http.InvalidDataException
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
+class RemoteCryptoFeedLoader constructor(private val cryptoFeedHttpClient: CryptoFeedHttpClient):
+    CryptoFeedLoader {
+    override fun load(): Flow<CryptoFeedResult> = flow {
+        cryptoFeedHttpClient.get().collect { result ->
+            when (result) {
+                is HttpClientResult.Success -> {
+                    val cryptoFeed = result.root.data
+                    if (cryptoFeed.isNotEmpty()) {
+                        emit(CryptoFeedResult.Success(CryptoFeedItemsMapper.map(cryptoFeed)))
+                    } else {
+                        emit(CryptoFeedResult.Success(emptyList()))
+                    }
+                }
+
+                is HttpClientResult.Failure -> {
+                    Log.d("loadCryptoFeed", "Failure")
+                    when (result.throwable) {
+                        is ConnectivityException -> {
+                            emit(CryptoFeedResult.Failure(Connectivity()))
+                        }
+
+                        is InvalidDataException -> {
+                            Log.d("loadCryptoFeed", "InvalidData")
+                            emit(CryptoFeedResult.Failure(InvalidData()))
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+class InvalidData : Throwable()
+class Connectivity : Throwable()
+package com.hightech.cryptoapp.crypto.feed.domain
+
+data class CryptoFeedItem(
+    val coinInfo: CoinInfoItem,
+    val raw: RawItem,
+)
+
+data class CoinInfoItem(
+    val id: String,
+    val name: String,
+    val fullName: String,
+    val imageUrl: String
+)
+
+data class RawItem(
+    val usd: UsdItem
+)
+
+data class UsdItem(
+    val price: Double,
+    val changePctDay: Float
+)
+package com.hightech.cryptoapp.crypto.feed.domain
+
+import com.hightech.cryptoapp.crypto.feed.http.RemoteCryptoFeedItem
+
+class CryptoFeedItemsMapper {
+    companion object {
+        fun map(items: List<RemoteCryptoFeedItem>): List<CryptoFeedItem> {
+            return items.map {
+                CryptoFeedItem(
+                    coinInfo = CoinInfoItem(
+                        it.remoteCoinInfo.id.orEmpty(),
+                        it.remoteCoinInfo.name.orEmpty(),
+                        it.remoteCoinInfo.fullName.orEmpty(),
+                        it.remoteCoinInfo.imageUrl.orEmpty()
+                    ),
+                    raw = RawItem(
+                        usd = UsdItem(
+                            it.remoteRaw.usd.price ?: 0.0,
+                            it.remoteRaw.usd.changePctDay ?: 0F
+                        )
+                    )
+                )
+            }
+        }
+    }
+}
+package com.hightech.cryptoapp.crypto.feed.domain
+
+import kotlinx.coroutines.flow.Flow
+
+sealed class CryptoFeedResult {
+    data class Success(val cryptoFeedItems: List<CryptoFeedItem>) : CryptoFeedResult()
+    data class Failure(val throwable: Throwable) : CryptoFeedResult()
+}
+
+interface CryptoFeedLoader {
+    fun load(): Flow<CryptoFeedResult>
+}

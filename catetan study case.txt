@@ -17,7 +17,8 @@ a. infra_api :
 b. api :
 
 1. remote_crpyto_feed -> remote model
-2. load _crpyto_feed_remote_use_cases
+2. crypto_feed_client -> interface (sama kayak interface repository)
+3. load _crpyto_feed_remote_use_cases
 
 c. domain :
 
@@ -30,8 +31,6 @@ d. presentation :
 e. ui :
 1. crypto_feed_screen
 
-
-untuk kode modelre
 
 
 
