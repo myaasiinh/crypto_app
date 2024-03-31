@@ -12,9 +12,9 @@ class HttpFactory {
       ),
     );
     dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
-    dio.options.connectTimeout = 10000 as Duration?; // 10 seconds
-    dio.options.receiveTimeout = 10000 as Duration?; // 10 seconds
-    dio.options.sendTimeout = 10000 as Duration?; // 10 seconds
+    dio.options.connectTimeout = const Duration(milliseconds: 10000); // 10 seconds
+    dio.options.receiveTimeout = const Duration(milliseconds: 10000); // 10 seconds
+    dio.options.sendTimeout = const Duration(milliseconds: 10000); // 10 seconds
     return dio;
   }
 }

@@ -1,18 +1,15 @@
-// ignore_for_file: override_on_non_overriding_member
 
 import 'package:crypto_app/api/crypto_feed_client.dart';
 import 'package:crypto_app/api/remote_crypto_feed.dart';
-import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:crypto_app/domain/item_mapper_crypto_feed.dart';
 import 'package:crypto_app/domain/load_crypto_feed_usecase.dart';
-import 'package:crypto_app/infra_api/crypto_feed_dio_client.dart';
+import 'package:crypto_app/infra/crypto_feed_dio_client.dart';
 
 class LoadCryptoFeedRemoteUseCases extends LoadCryptoFeedUseCase {
-  final CryptoFeedHttpClient _httpClient;
+  final CryptoFeedDioClient _httpClient;
 
-  LoadCryptoFeedRemoteUseCases(this._httpClient) : super.success(CryptoFeedResult.success([]) as List<CryptoFeedModelDomain>?);
+  LoadCryptoFeedRemoteUseCases(this._httpClient) : super.success([]);
 
-  @override
   Future<CryptoFeedResult> load() async {
     try {
       final result = await _httpClient.get().first;

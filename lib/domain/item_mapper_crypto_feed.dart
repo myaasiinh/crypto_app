@@ -1,5 +1,5 @@
 import 'package:crypto_app/domain/crypto_feed_domain.dart' as domain;
-import 'package:crypto_app/infra_api/crypto_feed_response.dart' as response;
+import 'package:crypto_app/infra/crypto_feed_response.dart' as response;
 
 class CryptoFeedItemsMapper {
   static List<domain.CryptoFeedModelDomain> map(List<response.CryptoFeedModelResponses> items) {

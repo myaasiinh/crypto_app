@@ -1,13 +1,13 @@
-import 'package:crypto_app/infra_api/crypto_feed_dio_client.dart';
+import 'package:crypto_app/infra/crypto_feed_services.dart';
 
 class CryptoFeedClient {
-  final CryptoFeedHttpClient _httpClient;
-
-  CryptoFeedClient(this._httpClient);
+  final CryptoFeedService _cryptoFeedService;
+  
+  CryptoFeedClient(this._cryptoFeedService);
 
   Future<HttpClientResult> get() async {
     try {
-      final result = _httpClient.get();
+      final result = _cryptoFeedService.get();
       return HttpClientResult.success(result);
     } on ConnectivityException catch (e) {
       return HttpClientResult.failure(ConnectivityException(message: e.message));

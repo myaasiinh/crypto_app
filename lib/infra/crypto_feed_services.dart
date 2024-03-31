@@ -1,4 +1,4 @@
-import 'package:crypto_app/infra_api/crypto_feed_response.dart';
+import 'package:crypto_app/infra/crypto_feed_response.dart';
 import 'package:dio/dio.dart';
 
 class CryptoFeedService {

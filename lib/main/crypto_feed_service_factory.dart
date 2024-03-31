@@ -1,5 +1,5 @@
 import 'package:crypto_app/framework/dio_factory.dart';
-import 'package:crypto_app/infra_api/crypto_feed_services.dart';
+import 'package:crypto_app/infra/crypto_feed_services.dart';
 
 class CryptoFeedServiceFactory {
   static CryptoFeedService createCryptoFeedService() {
