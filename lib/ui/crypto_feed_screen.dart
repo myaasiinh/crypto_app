@@ -1,4 +1,5 @@
 import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
+import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 import 'package:flutter/material.dart';
 
 class CryptoFeedScreen extends StatelessWidget {
@@ -13,22 +14,21 @@ class CryptoFeedScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Crypto Feed'),
       ),
-      body: viewModel.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : viewModel.error != null
-              ? Center(child: Text(viewModel.error!))
-              : ListView.builder(
-                  itemCount: viewModel.cryptoFeeds!.length,
-                  itemBuilder: (context, index) {
-                    final cryptoFeed = viewModel.cryptoFeeds![index];
-                    return ListTile(
-                      title: Text(cryptoFeed.data.first.coinInfo.fullName),
-                      subtitle:
-                          Text(cryptoFeed.data.first.coinInfo.documentType),
-                      // Add navigation logic here
-                    );
-                  },
-                ),
+      body: _buildBody(),
     );
+  }
+
+  Widget _buildBody() {
+    if (viewModel.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (viewModel.error != null) {
+      return Center(child: Text(viewModel.error!));
+    } else {
+      return _buildCryptoFeedList();
+    }
+  }
+
+  Widget _buildCryptoFeedList() {
+    return CryptoFeedList(items: viewModel.cryptoFeeds!); // Pass viewModel.cryptoFeeds to CryptoFeedList
   }
 }

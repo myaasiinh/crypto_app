@@ -14,24 +14,31 @@ class CryptoFeedViewModel extends ChangeNotifier {
 
   List<CryptoFeedModelDomain>? _cryptoFeeds;
   String? _error;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   List<CryptoFeedModelDomain>? get cryptoFeeds => _cryptoFeeds;
   String? get error => _error;
   bool get isLoading => _isLoading;
 
   Future<void> loadCryptoFeed() async {
-    _isLoading = true;
-    notifyListeners();
+    try {
+      _isLoading = true; // Set isLoading to true before fetching data
+      notifyListeners();
 
-    final result = await _cryptoFeedUseCase.load();
-    if (result.type == CryptoFeedResult.success) {
-      _cryptoFeeds = result.data;
-    } else {
-      _error = result.type.name;
+      final result = await _cryptoFeedUseCase.load();
+      if (result.type == CryptoFeedResult.success) {
+        _cryptoFeeds = result.data;
+        _error = null; // Reset error if data is loaded successfully
+      } else {
+        _error = result.type.name;
+        _cryptoFeeds = null; // Reset data if there's an error
+      }
+    } catch (e) {
+      _error = 'Error loading data'; // Handle exception/error
+      _cryptoFeeds = null; // Reset data in case of error
+    } finally {
+      _isLoading = false; // Update isLoading after data fetching completes
+      notifyListeners(); // Notify listeners after data fetching is completed
     }
-    
-    _isLoading = false;
-    notifyListeners();
   }
 }
