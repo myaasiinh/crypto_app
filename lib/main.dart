@@ -11,14 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = CryptoFeedViewModelFactory.createCryptoFeedViewModel();
+   // final viewModel = CryptoFeedViewModelFactory.createCryptoFeedViewModel();
 
     return MaterialApp(
       title: 'Crypto App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: CryptoFeedScreen(viewModel: viewModel),
+      home: const CryptoFeedScreen(),
     );
   }
 }
