@@ -29,7 +29,6 @@ class Datum {
         required this.raw,
         required this.display,
     });
-
 }
 
 class CoinInfo {
