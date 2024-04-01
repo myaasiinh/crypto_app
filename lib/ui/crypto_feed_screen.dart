@@ -1,6 +1,6 @@
-import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 
 class CryptoFeedScreen extends StatelessWidget {
   final CryptoFeedViewModel viewModel; // ViewModel instance
@@ -9,7 +9,7 @@ class CryptoFeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use viewModel directly
+    // Gunakan viewModel secara langsung
     return Scaffold(
       appBar: AppBar(
         title: const Text('Crypto Feed'),
@@ -29,6 +29,6 @@ class CryptoFeedScreen extends StatelessWidget {
   }
 
   Widget _buildCryptoFeedList() {
-    return CryptoFeedList(items: viewModel.cryptoFeeds!); // Pass viewModel.cryptoFeeds to CryptoFeedList
+    return CryptoFeedList(items: viewModel.cryptoFeeds); // Pass viewModel.cryptoFeeds to CryptoFeedList
   }
 }

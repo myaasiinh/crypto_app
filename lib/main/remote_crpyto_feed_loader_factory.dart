@@ -5,7 +5,7 @@ import 'package:crypto_app/main/crypto_feed_dio_client_factory%20.dart';
 class RemoteCryptoFeedLoaderFactory {
   static LoadCryptoFeedUseCase createRemoteCryptoFeedLoader() {
     return LoadCryptoFeedRemoteUseCases(
-      CryptoFeedHttpClientFactory.createCryptoFeedHttpClient(),
+      CryptoFeedDioClientFactory.createCryptoFeedDioClient(),
     );
   }
 }

@@ -3,8 +3,8 @@
 import 'package:crypto_app/infra/crypto_feed_dio_client.dart';
 import 'package:crypto_app/main/crypto_feed_service_factory.dart';
 
-class CryptoFeedHttpClientFactory {
-  static CryptoFeedDioClient createCryptoFeedHttpClient() {
+class CryptoFeedDioClientFactory {
+  static CryptoFeedDioClient createCryptoFeedDioClient() {
     final cryptoFeedService = CryptoFeedServiceFactory.createCryptoFeedService();
     return CryptoFeedDioClient(cryptoFeedService); // Assuming CryptoFeedClient accepts CryptoFeedService in its constructor.
   }
