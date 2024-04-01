@@ -1,6 +1,5 @@
 import 'package:crypto_app/ui/crypto_feed_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 
 void main() {
   runApp(const MyApp());

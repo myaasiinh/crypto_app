@@ -75,7 +75,7 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
       return CryptoFeedList(items: _cryptoFeeds!);
     } else {
       // Tampilkan pesan atau widget lain ketika _cryptoFeeds bernilai null
-      return const Center(child: Text('No data available'));
+      return const Center(child: Text('Error, No data available'));
     }
   }
 }

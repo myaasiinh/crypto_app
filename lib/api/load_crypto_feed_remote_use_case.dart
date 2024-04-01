@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 
 import 'package:crypto_app/api/crypto_feed_client.dart';
 import 'package:crypto_app/api/remote_crypto_feed.dart';
@@ -13,10 +14,13 @@ class LoadCryptoFeedRemoteUseCases extends LoadCryptoFeedUseCase {
   Future<CryptoFeedResult> load() async {
     try {
       final result = await _httpClient.get().first;
+      print('Response from API: $result'); // Print response from API
+      
       return result.data(
         (success) {
           if (success.data != null) {
             final mappedData = CryptoFeedItemsMapper.map(success.data);
+            print('Mapped data: $mappedData'); // Print mapped data
             return CryptoFeedResult.success(mappedData);
           } else {
             return CryptoFeedResult.success(null);
