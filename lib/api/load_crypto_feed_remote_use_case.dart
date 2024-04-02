@@ -21,9 +21,9 @@ class LoadCryptoFeedRemoteUseCases extends CryptoFeedLoader {
         print('Response from API: $result');
 
         if (result.data != null) {
-          final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result as CryptoFeedModelResponses);
-          print('Mapped data: ${mappedData.data.single.coinInfo.fullName}');
-          return CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
+          final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result.data!);
+          //mappedData.data.first
+          return CryptoFeedResult.success(mappedData.data.cast<CryptoFeedModelDomain>());
         } else {
           return CryptoFeedResult.success(null);
         }
