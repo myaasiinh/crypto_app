@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_type_check
+// ignore_for_file: unnecessary_type_check, library_private_types_in_public_api
 
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 
 class CryptoFeedScreen extends StatefulWidget {
-  const CryptoFeedScreen({Key? key}) : super(key: key);
+  const CryptoFeedScreen({super.key});
 
   @override
   _CryptoFeedScreenState createState() => _CryptoFeedScreenState();
@@ -53,16 +53,15 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
     );
   }
 
- Widget _buildBody(CryptoFeedViewModelState state) {
-  if (state is CryptoFeedViewModelState) {
-    if (state.cryptoFeeds.isEmpty) {
-      return Center(child: Text(state.failed));
+  Widget _buildBody(CryptoFeedViewModelState state) {
+    if (state is CryptoFeedViewModelState) {
+      if (state.cryptoFeeds.isEmpty) {
+        return Center(child: Text(state.failed));
+      } else {
+        return CryptoFeedList(items: state.cryptoFeeds);
+      }
     } else {
-      return CryptoFeedList(items: state.cryptoFeeds);
+      return const Center(child: Text('Unknown state'));
     }
-  } else {
-    return const Center(child: Text('Unknown state'));
   }
-}
-
 }

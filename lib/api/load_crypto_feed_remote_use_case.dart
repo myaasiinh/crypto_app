@@ -3,31 +3,34 @@
 import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:crypto_app/domain/item_mapper_crypto_feed.dart';
-import 'package:crypto_app/domain/load_crypto_feed_usecase.dart';
 import 'package:crypto_app/infra/crypto_feed_dio_client.dart';
 import 'package:crypto_app/infra/crypto_feed_response.dart';
 import 'package:crypto_app/utils/http_client.dart';
 
-class LoadCryptoFeedRemoteUseCases extends LoadCryptoFeedUseCase {
+
+class LoadCryptoFeedRemoteUseCases extends CryptoFeedLoader {
   final CryptoFeedDioClient _httpClient;
 
-  LoadCryptoFeedRemoteUseCases(this._httpClient) : super.success([]);
+  LoadCryptoFeedRemoteUseCases(this._httpClient)  : super();
 
-  Future<CryptoFeedResult> load() async {
+  @override
+  Stream<CryptoFeedResult> load() {
     try {
-      final result = await _httpClient.get().first;
-      // Print response from API
-      print('Response from API: $result');
+      return _httpClient.get().map((result) {
+        // Print response from API
+        print('Response from API: $result');
 
-      if (result.data != null) {
-        final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result as CryptoFeedModelResponses);
-        print('Mapped data: ${mappedData.data.single.coinInfo.fullName}');
-        return CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
-      } else {
-        return CryptoFeedResult.success(null);
-      }
+        if (result.data != null) {
+          final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result as CryptoFeedModelResponses);
+          print('Mapped data: ${mappedData.data.single.coinInfo.fullName}');
+          return CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
+        } else {
+          return CryptoFeedResult.success(null);
+        }
+      });
     } catch (e) {
-      return CryptoFeedResult.failure(UnknownError());
+      return Stream.value(CryptoFeedResult.failure(UnknownError()));
     }
   }
 }
+

@@ -10,8 +10,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // final viewModel = CryptoFeedViewModelFactory.createCryptoFeedViewModel();
-
     return MaterialApp(
       title: 'Crypto App',
       theme: ThemeData(

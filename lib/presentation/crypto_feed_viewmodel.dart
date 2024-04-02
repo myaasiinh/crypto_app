@@ -54,7 +54,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
 
   static CryptoFeedViewModel create() {
     return CryptoFeedViewModel(
-      RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader() as CryptoFeedLoader,
+      RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader(),
     );
   }
 }
