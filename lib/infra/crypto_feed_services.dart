@@ -17,6 +17,6 @@ class CryptoFeedService {
           "tsym": tsym,
         },
       );
-      return CryptoFeedModelResponses.fromJson(response.data);
+      return CryptoFeedModelResponses.fromMap(response.data);
   }
 }

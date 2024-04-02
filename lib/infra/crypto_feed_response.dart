@@ -1,4 +1,12 @@
+// To parse this JSON data, do
+//
+//     final cryptoFeedModelResponses = cryptoFeedModelResponsesFromMap(jsonString);
+
 import 'dart:convert';
+
+CryptoFeedModelResponses cryptoFeedModelResponsesFromMap(String str) => CryptoFeedModelResponses.fromMap(json.decode(str));
+
+String cryptoFeedModelResponsesToMap(CryptoFeedModelResponses data) => json.encode(data.toMap());
 
 class CryptoFeedModelResponses {
     String message;
@@ -19,27 +27,23 @@ class CryptoFeedModelResponses {
         required this.hasWarning,
     });
 
-    factory CryptoFeedModelResponses.fromRawJson(String str) => CryptoFeedModelResponses.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory CryptoFeedModelResponses.fromJson(Map<String, dynamic> json) => CryptoFeedModelResponses(
+    factory CryptoFeedModelResponses.fromMap(Map<String, dynamic> json) => CryptoFeedModelResponses(
         message: json["Message"],
         type: json["Type"],
-        metaData: MetaData.fromJson(json["MetaData"]),
+        metaData: MetaData.fromMap(json["MetaData"]),
         sponsoredData: List<dynamic>.from(json["SponsoredData"].map((x) => x)),
-        data: List<Datum>.from(json["Data"].map((x) => Datum.fromJson(x))),
-        rateLimit: RateLimit.fromJson(json["RateLimit"]),
+        data: List<Datum>.from(json["Data"].map((x) => Datum.fromMap(x))),
+        rateLimit: RateLimit.fromMap(json["RateLimit"]),
         hasWarning: json["HasWarning"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "Message": message,
         "Type": type,
-        "MetaData": metaData.toJson(),
+        "MetaData": metaData.toMap(),
         "SponsoredData": List<dynamic>.from(sponsoredData.map((x) => x)),
-        "Data": List<dynamic>.from(data.map((x) => x.toJson())),
-        "RateLimit": rateLimit.toJson(),
+        "Data": List<dynamic>.from(data.map((x) => x.toMap())),
+        "RateLimit": rateLimit.toMap(),
         "HasWarning": hasWarning,
     };
 }
@@ -55,20 +59,16 @@ class Datum {
         required this.display,
     });
 
-    factory Datum.fromRawJson(String str) => Datum.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        coinInfo: CoinInfo.fromJson(json["CoinInfo"]),
-        raw: Raw.fromJson(json["RAW"]),
-        display: Display.fromJson(json["DISPLAY"]),
+    factory Datum.fromMap(Map<String, dynamic> json) => Datum(
+        coinInfo: CoinInfo.fromMap(json["CoinInfo"]),
+        raw: Raw.fromMap(json["RAW"]),
+        display: Display.fromMap(json["DISPLAY"]),
     );
 
-    Map<String, dynamic> toJson() => {
-        "CoinInfo": coinInfo.toJson(),
-        "RAW": raw.toJson(),
-        "DISPLAY": display.toJson(),
+    Map<String, dynamic> toMap() => {
+        "CoinInfo": coinInfo.toMap(),
+        "RAW": raw.toMap(),
+        "DISPLAY": display.toMap(),
     };
 }
 
@@ -111,11 +111,7 @@ class CoinInfo {
         required this.documentType,
     });
 
-    factory CoinInfo.fromRawJson(String str) => CoinInfo.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory CoinInfo.fromJson(Map<String, dynamic> json) => CoinInfo(
+    factory CoinInfo.fromMap(Map<String, dynamic> json) => CoinInfo(
         id: json["Id"],
         name: json["Name"],
         fullName: json["FullName"],
@@ -124,7 +120,7 @@ class CoinInfo {
         url: json["Url"],
         algorithm: json["Algorithm"],
         proofType: json["ProofType"],
-        rating: Rating.fromJson(json["Rating"]),
+        rating: Rating.fromMap(json["Rating"]),
         netHashesPerSecond: json["NetHashesPerSecond"]?.toDouble(),
         blockNumber: json["BlockNumber"],
         blockTime: json["BlockTime"]?.toDouble(),
@@ -135,7 +131,7 @@ class CoinInfo {
         documentType: json["DocumentType"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "Id": id,
         "Name": name,
         "FullName": fullName,
@@ -144,7 +140,7 @@ class CoinInfo {
         "Url": url,
         "Algorithm": algorithm,
         "ProofType": proofType,
-        "Rating": rating.toJson(),
+        "Rating": rating.toMap(),
         "NetHashesPerSecond": netHashesPerSecond,
         "BlockNumber": blockNumber,
         "BlockTime": blockTime,
@@ -163,16 +159,12 @@ class Rating {
         required this.weiss,
     });
 
-    factory Rating.fromRawJson(String str) => Rating.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory Rating.fromJson(Map<String, dynamic> json) => Rating(
-        weiss: Weiss.fromJson(json["Weiss"]),
+    factory Rating.fromMap(Map<String, dynamic> json) => Rating(
+        weiss: Weiss.fromMap(json["Weiss"]),
     );
 
-    Map<String, dynamic> toJson() => {
-        "Weiss": weiss.toJson(),
+    Map<String, dynamic> toMap() => {
+        "Weiss": weiss.toMap(),
     };
 }
 
@@ -187,17 +179,13 @@ class Weiss {
         required this.marketPerformanceRating,
     });
 
-    factory Weiss.fromRawJson(String str) => Weiss.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory Weiss.fromJson(Map<String, dynamic> json) => Weiss(
+    factory Weiss.fromMap(Map<String, dynamic> json) => Weiss(
         rating: json["Rating"],
         technologyAdoptionRating: json["TechnologyAdoptionRating"],
         marketPerformanceRating: json["MarketPerformanceRating"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "Rating": rating,
         "TechnologyAdoptionRating": technologyAdoptionRating,
         "MarketPerformanceRating": marketPerformanceRating,
@@ -211,16 +199,12 @@ class Display {
         required this.usd,
     });
 
-    factory Display.fromRawJson(String str) => Display.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory Display.fromJson(Map<String, dynamic> json) => Display(
-        usd: DisplayUsd.fromJson(json["USD"]),
+    factory Display.fromMap(Map<String, dynamic> json) => Display(
+        usd: DisplayUsd.fromMap(json["USD"]),
     );
 
-    Map<String, dynamic> toJson() => {
-        "USD": usd.toJson(),
+    Map<String, dynamic> toMap() => {
+        "USD": usd.toMap(),
     };
 }
 
@@ -319,11 +303,7 @@ class DisplayUsd {
         required this.imageurl,
     });
 
-    factory DisplayUsd.fromRawJson(String str) => DisplayUsd.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory DisplayUsd.fromJson(Map<String, dynamic> json) => DisplayUsd(
+    factory DisplayUsd.fromMap(Map<String, dynamic> json) => DisplayUsd(
         fromsymbol: json["FROMSYMBOL"],
         tosymbol: json["TOSYMBOL"],
         market: json["MARKET"],
@@ -371,7 +351,7 @@ class DisplayUsd {
         imageurl: json["IMAGEURL"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "FROMSYMBOL": fromsymbol,
         "TOSYMBOL": tosymbol,
         "MARKET": market,
@@ -427,16 +407,12 @@ class Raw {
         required this.usd,
     });
 
-    factory Raw.fromRawJson(String str) => Raw.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory Raw.fromJson(Map<String, dynamic> json) => Raw(
-        usd: RawUsd.fromJson(json["USD"]),
+    factory Raw.fromMap(Map<String, dynamic> json) => Raw(
+        usd: RawUsd.fromMap(json["USD"]),
     );
 
-    Map<String, dynamic> toJson() => {
-        "USD": usd.toJson(),
+    Map<String, dynamic> toMap() => {
+        "USD": usd.toMap(),
     };
 }
 
@@ -541,11 +517,7 @@ class RawUsd {
         required this.imageurl,
     });
 
-    factory RawUsd.fromRawJson(String str) => RawUsd.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory RawUsd.fromJson(Map<String, dynamic> json) => RawUsd(
+    factory RawUsd.fromMap(Map<String, dynamic> json) => RawUsd(
         type: json["TYPE"],
         market: json["MARKET"],
         fromsymbol: json["FROMSYMBOL"],
@@ -596,7 +568,7 @@ class RawUsd {
         imageurl: json["IMAGEURL"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "TYPE": type,
         "MARKET": market,
         "FROMSYMBOL": fromsymbol,
@@ -655,15 +627,11 @@ class MetaData {
         required this.count,
     });
 
-    factory MetaData.fromRawJson(String str) => MetaData.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory MetaData.fromJson(Map<String, dynamic> json) => MetaData(
+    factory MetaData.fromMap(Map<String, dynamic> json) => MetaData(
         count: json["Count"],
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
         "Count": count,
     };
 }
@@ -671,13 +639,9 @@ class MetaData {
 class RateLimit {
     RateLimit();
 
-    factory RateLimit.fromRawJson(String str) => RateLimit.fromJson(json.decode(str));
-
-    String toRawJson() => json.encode(toJson());
-
-    factory RateLimit.fromJson(Map<String, dynamic> json) => RateLimit(
+    factory RateLimit.fromMap(Map<String, dynamic> json) => RateLimit(
     );
 
-    Map<String, dynamic> toJson() => {
+    Map<String, dynamic> toMap() => {
     };
 }

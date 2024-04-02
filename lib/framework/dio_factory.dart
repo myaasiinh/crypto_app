@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-class HttpFactory {
+class DioFactory {
   static Dio createDio() {
     final dio = Dio(BaseOptions(baseUrl: "https://min-api.cryptocompare.com/"));
     dio.interceptors.add(

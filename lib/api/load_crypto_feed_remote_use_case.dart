@@ -14,14 +14,21 @@ class LoadCryptoFeedRemoteUseCases extends LoadCryptoFeedUseCase {
 
   Future<CryptoFeedResult> load() async {
     try {
-      final result = await _httpClient.get().first;
+      final result = await _httpClient.get().single;
       print('Response from API: $result'); // Print response from API
 
       if (result.data != null) {
-        final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result.data);
-        print('Mapped data: $mappedData'); // Print mapped data
+        final mappedData =
+            CryptoFeedMapper.fromModelResponseMapDomain(result.data);
+        print('Mapped data:');
 
-        return CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
+        List<Datum> dataList = [];
+        dataList.addAll(mappedData.data as Iterable<
+            Datum>); 
+            
+         print('sukses mapper data $dataList');   // Menambahkan semua item dari mappedData.data ke dalam dataList
+
+        return CryptoFeedResult.success(dataList.cast<CryptoFeedModelDomain>());
       } else {
         return CryptoFeedResult.success(null);
       }
