@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:crypto_app/utils/http_client.dart';
 import 'package:flutter/material.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
@@ -37,7 +39,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
 
   Future<void> loadCryptoFeed() async {
     try {
-      final result = await cryptoFeedLoader.load().first;
+      final result = await cryptoFeedLoader.load().single;
       print("loadCryptoFeed: $result");
       if (result is LoadCryptoFeedUseCase) {
         if (result.type == StatusNetworkType.success) {

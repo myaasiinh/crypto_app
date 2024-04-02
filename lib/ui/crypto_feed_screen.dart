@@ -1,7 +1,8 @@
-import 'dart:async';
+// ignore_for_file: use_super_parameters, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
-import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
+import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 
 class CryptoFeedScreen extends StatefulWidget {
@@ -13,20 +14,13 @@ class CryptoFeedScreen extends StatefulWidget {
 
 class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   late CryptoFeedViewModel _viewModel;
-  late StreamController<CryptoFeedUiState> _streamController;
+  late Stream<CryptoFeedUiState> _stream;
 
   @override
   void initState() {
     super.initState();
     _viewModel = CryptoFeedViewModel.create();
-    _streamController = StreamController<CryptoFeedUiState>();
-    _streamController.add(_viewModel.viewModelState.toCryptoFeedUiState());
-  }
-
-  @override
-  void dispose() {
-    _streamController.close();
-    super.dispose();
+    _stream = _viewModel.cryptoFeedUiState;
   }
 
   @override
@@ -36,7 +30,7 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
         title: const Text('Crypto Feed'),
       ),
       body: StreamBuilder<CryptoFeedUiState>(
-        stream: _streamController.stream,
+        stream: _stream,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -52,10 +46,11 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   }
 
   Widget _buildBody(CryptoFeedUiState state) {
+    final viewModelState = _viewModel.viewModelState;
     if (state == CryptoFeedUiState.noCryptoFeed) {
-      return Center(child: Text(_viewModel.viewModelState.failed));
+      return Center(child: Text(viewModelState.failed));
     } else if (state == CryptoFeedUiState.hasCryptoFeed) {
-      return CryptoFeedList(items: _viewModel.viewModelState.cryptoFeeds);
+      return CryptoFeedList(items: viewModelState.cryptoFeeds);
     } else {
       return const Center(child: Text('Unknown state'));
     }
