@@ -1,11 +1,12 @@
-// ignore_for_file: avoid_print, unnecessary_null_comparison
+// ignore_for_file: avoid_print
 
-import 'package:crypto_app/api/crypto_feed_client.dart';
 import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:crypto_app/domain/item_mapper_crypto_feed.dart';
 import 'package:crypto_app/domain/load_crypto_feed_usecase.dart';
 import 'package:crypto_app/infra/crypto_feed_dio_client.dart';
+import 'package:crypto_app/infra/crypto_feed_response.dart';
+import 'package:crypto_app/utils/http_client.dart';
 
 class LoadCryptoFeedRemoteUseCases extends LoadCryptoFeedUseCase {
   final CryptoFeedDioClient _httpClient;
@@ -14,21 +15,14 @@ class LoadCryptoFeedRemoteUseCases extends LoadCryptoFeedUseCase {
 
   Future<CryptoFeedResult> load() async {
     try {
-      final result = await _httpClient.get().single;
-      print('Response from API: $result'); // Print response from API
+      final result = await _httpClient.get().first;
+      // Print response from API
+      print('Response from API: $result');
 
       if (result.data != null) {
-        final mappedData =
-            CryptoFeedMapper.fromModelResponseMapDomain(result.data);
-        print('Mapped data:');
-
-        List<Datum> dataList = [];
-        dataList.addAll(mappedData.data as Iterable<
-            Datum>); 
-            
-         print('sukses mapper data $dataList');   // Menambahkan semua item dari mappedData.data ke dalam dataList
-
-        return CryptoFeedResult.success(dataList.cast<CryptoFeedModelDomain>());
+        final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result as CryptoFeedModelResponses);
+        print('Mapped data: ${mappedData.data.single.coinInfo.fullName}');
+        return CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
       } else {
         return CryptoFeedResult.success(null);
       }

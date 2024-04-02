@@ -19,15 +19,18 @@ class CryptoFeedMapper {
     );
   }
 
-  static List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
-    return dataList.map((datum) {
-      return modelDomain.Datum(
-        coinInfo: _mapCoinInfo(datum.coinInfo),
-        raw: _mapRaw(datum.raw),
-        display: _mapDisplay(datum.display),
-      );
-    }).toList();
+static List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
+  List<modelDomain.Datum> mappedData = [];
+  for (var datum in dataList) {
+    mappedData.add(modelDomain.Datum(
+      coinInfo: _mapCoinInfo(datum.coinInfo),
+      raw: _mapRaw(datum.raw),
+      display: _mapDisplay(datum.display),
+    ));
   }
+  return mappedData;
+}
+
 
   static modelDomain.CoinInfo _mapCoinInfo(modelResponses.CoinInfo coinInfo) {
     return modelDomain.CoinInfo(

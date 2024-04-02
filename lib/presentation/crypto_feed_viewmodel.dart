@@ -1,45 +1,60 @@
-// ignore_for_file: unrelated_type_equality_checks
+// ignore_for_file: avoid_print
 
-import 'package:crypto_app/api/load_crypto_feed_remote_use_case.dart';
 import 'package:crypto_app/api/remote_crypto_feed.dart';
-import 'package:crypto_app/main/crypto_feed_dio_client_factory%20.dart';
-import 'package:crypto_app/presentation/crypto_feed_notifier.dart';
+import 'package:crypto_app/main/remote_crpyto_feed_loader_factory.dart';
+import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
+import 'package:flutter/material.dart';
+import 'package:crypto_app/domain/load_crypto_feed_usecase.dart';
+import 'package:crypto_app/utils/http_client.dart';
+import 'package:crypto_app/utils/status_network.dart';
 
-class CryptoFeedViewModel {
-  final LoadCryptoFeedRemoteUseCases _cryptoFeedUseCase;
+class CryptoFeedViewModel extends ChangeNotifier {
+  final CryptoFeedLoader cryptoFeedLoader;
+  CryptoFeedViewModelState _viewModelState =
+      CryptoFeedViewModelState(
+        cryptoFeeds:  [],
+        isLoading: false, 
+        failed: ''
+      );
 
-  CryptoFeedViewModel(this._cryptoFeedUseCase) {
+  CryptoFeedViewModel(this.cryptoFeedLoader) {
     loadCryptoFeed();
   }
 
-  // Fungsi untuk memuat data dan memperbarui objek penerbit
+  CryptoFeedUiState get cryptoFeedUiState {
+    return _viewModelState.toCryptoFeedUiState();
+  }
+
   Future<void> loadCryptoFeed() async {
-    // Menampilkan loading indicator
-    CryptoFeedNotifier().updateCryptoFeed(null, null, true);
-
     try {
-      final result = await _cryptoFeedUseCase.load();
-
-      if (result.type == CryptoFeedResult.success) {
-        // Jika sukses, update data dan hapus error
-        CryptoFeedNotifier().updateCryptoFeed(result.data, null, false);
-      } else {
-        // Jika gagal, update error dan hapus data
-        CryptoFeedNotifier().updateCryptoFeed(null, result.error, false);
+      final result = await cryptoFeedLoader.load().first;
+      print("loadCryptoFeed: $result");
+      if (result is LoadCryptoFeedUseCase) {
+        if (result.type == StatusNetworkType.success) {
+          _viewModelState = _viewModelState.copyWith(
+            cryptoFeeds: result.cryptoFeedItems!,
+            isLoading: false,
+          );
+        } else {
+          _viewModelState = _viewModelState.copyWith(
+            failed: result.error is ConnectivityException
+                ? "Connectivity"
+                : result.error is InvalidDataException
+                    ? "Invalid Data"
+                    : "Something Went Wrong",
+            isLoading: false,
+          );
+        }
       }
+      notifyListeners();
     } catch (e) {
-      // Jika terjadi exception, update error dan hapus data
-      CryptoFeedNotifier().updateCryptoFeed(null, 'Error loading data', false);
+      print("Unknown error: $e");
     }
   }
-}
 
-class CryptoFeedViewModelFactory {
-  static CryptoFeedViewModel createCryptoFeedViewModel() {
+  static CryptoFeedViewModel create() {
     return CryptoFeedViewModel(
-      LoadCryptoFeedRemoteUseCases(
-        CryptoFeedDioClientFactory.createCryptoFeedDioClient(),
-      ),
+      RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader() as CryptoFeedLoader,
     );
   }
 }

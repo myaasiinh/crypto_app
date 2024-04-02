@@ -1,53 +1,34 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: unnecessary_type_check
 
-import 'package:crypto_app/domain/crypto_feed_domain.dart';
-import 'package:crypto_app/presentation/crypto_feed_notifier.dart';
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
-import 'package:flutter/material.dart';
 
 class CryptoFeedScreen extends StatefulWidget {
-  const CryptoFeedScreen({super.key});
+  const CryptoFeedScreen({Key? key}) : super(key: key);
 
   @override
   _CryptoFeedScreenState createState() => _CryptoFeedScreenState();
 }
 
 class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
-  // Menyimpan data yang diambil dari objek penerbit
-  List<CryptoFeedModelDomain>? _cryptoFeeds;
-  String? _error;
-  bool _isLoading = false;
+  late CryptoFeedViewModel _viewModel;
+  late StreamController<CryptoFeedUiState> _streamController;
 
   @override
   void initState() {
     super.initState();
-    // Langganan (subscribe) ke objek penerbit
-    CryptoFeedNotifier().addListener(_updateUI);
-    // Memuat data pertama kali
-    _loadData();
+    _viewModel = CryptoFeedViewModel.create();
+    _streamController = StreamController<CryptoFeedUiState>();
+    _streamController.add(_viewModel.cryptoFeedUiState);
   }
 
   @override
   void dispose() {
-    // Batalkan langganan (unsubscribe) dari objek penerbit
-    CryptoFeedNotifier().removeListener(_updateUI);
+    _streamController.close();
     super.dispose();
-  }
-
-  Future<void> _loadData() async {
-    CryptoFeedViewModel viewModel =
-        CryptoFeedViewModelFactory.createCryptoFeedViewModel();
-    await viewModel.loadCryptoFeed();
-  }
-
-  // Fungsi untuk memperbarui tampilan sesuai dengan data dari objek penerbit
-  void _updateUI() {
-    setState(() {
-      _cryptoFeeds = CryptoFeedNotifier().cryptoFeeds;
-      _error = CryptoFeedNotifier().error;
-      _isLoading = CryptoFeedNotifier().isLoading;
-    });
   }
 
   @override
@@ -56,26 +37,32 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
       appBar: AppBar(
         title: const Text('Crypto Feed'),
       ),
-      body: _buildBody(),
+      body: StreamBuilder<CryptoFeedUiState>(
+        stream: _streamController.stream,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            final state = snapshot.data!;
+            return _buildBody(state as CryptoFeedViewModelState);
+          }
+        },
+      ),
     );
   }
 
-  Widget _buildBody() {
-    if (_isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    } else if (_error != null) {
-      return Center(child: Text(_error!));
+ Widget _buildBody(CryptoFeedViewModelState state) {
+  if (state is CryptoFeedViewModelState) {
+    if (state.cryptoFeeds.isEmpty) {
+      return Center(child: Text(state.failed));
     } else {
-      return _buildCryptoFeedList();
+      return CryptoFeedList(items: state.cryptoFeeds);
     }
+  } else {
+    return const Center(child: Text('Unknown state'));
   }
+}
 
-  Widget _buildCryptoFeedList() {
-    if (_cryptoFeeds != null) {
-      return CryptoFeedList(items: _cryptoFeeds!);
-    } else {
-      // Tampilkan pesan atau widget lain ketika _cryptoFeeds bernilai null
-      return const Center(child: Text('Error, No data available'));
-    }
-  }
 }

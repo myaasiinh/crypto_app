@@ -1,4 +1,6 @@
+import 'package:crypto_app/infra/crypto_feed_response.dart';
 import 'package:crypto_app/infra/crypto_feed_services.dart';
+import 'package:crypto_app/utils/http_client.dart';
 
 class CryptoFeedClient {
   final CryptoFeedService _cryptoFeedService;
@@ -8,7 +10,7 @@ class CryptoFeedClient {
   Future<HttpClientResult> get() async {
     try {
       final result = _cryptoFeedService.get();
-      return HttpClientResult.success(result);
+      return HttpClientResult.success(result as CryptoFeedModelResponses?);
     } on ConnectivityException catch (e) {
       return HttpClientResult.failure(ConnectivityException(message: e.message));
     } on InvalidDataException catch (e) {
@@ -18,28 +20,3 @@ class CryptoFeedClient {
     }
   }
 }
-
-class HttpClientResult<T> {
-  final T? data;
-  final Exception? error;
-
-  HttpClientResult.success(this.data) : error = null;
-  HttpClientResult.failure(this.error) : data = null;
-}
-
-// Exception untuk menangani masalah koneksi
-class ConnectivityException implements Exception {
-  final String message;
-
-  ConnectivityException({this.message = 'No internet connection'}) : super();
-}
-
-// Exception untuk menangani data yang tidak valid
-class InvalidDataException implements Exception {
-  final String message;
-
-  InvalidDataException({this.message = 'Invalid data'}) : super();
-}
-
-// Exception untuk menangani error tidak diketahui
-class UnknownError implements Exception {}
