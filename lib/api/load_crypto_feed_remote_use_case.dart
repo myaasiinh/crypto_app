@@ -5,13 +5,13 @@ import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:crypto_app/domain/item_mapper_crypto_feed.dart';
 import 'package:crypto_app/infra/crypto_feed_response.dart';
-import 'package:crypto_app/utils/crypto_feed_http_client.dart';
+import 'package:crypto_app/infra/dio_client.dart';
 import 'package:crypto_app/utils/error_handling.dart';
 import 'package:crypto_app/utils/status_network.dart';
 
 
 class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
-  final CryptoFeedHttpClient _cryptoFeedHttpClient;
+  final DioClient _cryptoFeedHttpClient;
 
   LoadCryptoFeedRemoteUseCases(this._cryptoFeedHttpClient);
 
