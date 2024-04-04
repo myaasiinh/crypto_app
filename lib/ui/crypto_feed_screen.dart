@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
@@ -12,14 +13,26 @@ class CryptoFeedScreen extends StatefulWidget {
 
 class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   late CryptoFeedViewModel _viewModel;
+  late StreamController<CryptoFeedUiState> _streamController;
   late Stream<CryptoFeedUiState> _stream;
 
   @override
   void initState() {
     super.initState();
     _viewModel = CryptoFeedViewModel.create();
-    _stream = _viewModel.cryptoFeedUiState;
+    _streamController = StreamController<CryptoFeedUiState>();
+    _stream = _streamController.stream;
+    _viewModel.addListener(() {
+      _streamController.add(_viewModel.cryptoFeedUiState);
+    });
     _viewModel.loadCryptoFeed();
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    _viewModel.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,12 +58,11 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   }
 
   Widget _buildBody(CryptoFeedUiState state) {
-    final viewModelState = _viewModel.viewModelState;
-    if (state == CryptoFeedUiState.noCryptoFeed) {
-      return Center(child: Text(viewModelState.failed));
-    } else if (state == CryptoFeedUiState.hasCryptoFeed) {
-      // Jika ada data, tampilkan CryptoFeedList
-      return CryptoFeedList(items: viewModelState.cryptoFeeds);
+    if (state is NoCryptoFeed) {
+      return Center(child: Text(state.failed));
+    } else if (state is HasCryptoFeed) {
+      // If there is data, display the CryptoFeedList
+      return CryptoFeedList(items: state.cryptoFeeds);
     } else {
       return const Center(child: Text('Unknown state'));
     }
