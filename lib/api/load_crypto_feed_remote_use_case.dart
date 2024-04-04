@@ -10,21 +10,20 @@ import 'package:crypto_app/utils/http_client.dart';
 class LoadCryptoFeedRemoteUseCases extends CryptoFeedLoader {
   final CryptoFeedDioClient _httpClient;
 
-  LoadCryptoFeedRemoteUseCases(this._httpClient)  : super();
+  LoadCryptoFeedRemoteUseCases(this._httpClient) : super();
 
   @override
   Stream<CryptoFeedResult> load() {
     try {
-      return _httpClient.get().map((result) {
+      return _httpClient.get().asyncMap((result) async {
         // Print response from API
         print('Response from API: $result');
 
-        if (result.data != null) {
+        if (result.data !=null) {
           final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(result.data!);
-          //mappedData.data.first
-          return CryptoFeedResult.success(mappedData.data.cast<CryptoFeedModelDomain>());
+          return CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
         } else {
-          return CryptoFeedResult.success(null);
+          return CryptoFeedResult.failure(UnknownError());
         }
       });
     } catch (e) {

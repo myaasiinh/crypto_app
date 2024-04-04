@@ -1,5 +1,3 @@
-// ignore_for_file: use_super_parameters, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
@@ -21,6 +19,7 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
     super.initState();
     _viewModel = CryptoFeedViewModel.create();
     _stream = _viewModel.cryptoFeedUiState;
+    _viewModel.loadCryptoFeed();
   }
 
   @override
@@ -50,6 +49,7 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
     if (state == CryptoFeedUiState.noCryptoFeed) {
       return Center(child: Text(viewModelState.failed));
     } else if (state == CryptoFeedUiState.hasCryptoFeed) {
+      // Jika ada data, tampilkan CryptoFeedList
       return CryptoFeedList(items: viewModelState.cryptoFeeds);
     } else {
       return const Center(child: Text('Unknown state'));

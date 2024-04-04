@@ -48,6 +48,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
             isLoading: false,
             failed: '',
           );
+          print("loadCryptoFeed: $result");
         } else {
           _viewModelState = CryptoFeedViewModelState(
             cryptoFeeds: [],

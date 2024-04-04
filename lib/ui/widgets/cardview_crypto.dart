@@ -9,7 +9,13 @@ class CryptoFeedList extends StatelessWidget {
 
   CryptoFeedList({
     required this.items,
-  });
+  }
+  
+  );
+
+  
+
+  
 
   @override
   Widget build(BuildContext context) {
