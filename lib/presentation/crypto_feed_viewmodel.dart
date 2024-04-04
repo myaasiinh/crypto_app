@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/main/remote_crpyto_feed_loader_factory.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
@@ -27,11 +29,13 @@ class CryptoFeedViewModel extends ChangeNotifier {
           cryptoFeeds: result.cryptoFeedItems!,
           failed: '',
         );
+        print('CryptoFeedViewModel: ${result.cryptoFeedItems!.length}');
       } else if (result.type == StatusNetworkType.failure) {
         _cryptoFeedUiState = CryptoFeedUiState.noCryptoFeed(
           isLoading: false,
           failed: _getFailedMessage(result.error),
         );
+        print('CryptoFeedViewModel: ${result.error}');
       }
       notifyListeners();
     });
