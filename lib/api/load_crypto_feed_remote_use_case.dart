@@ -11,21 +11,18 @@ import 'package:crypto_app/utils/status_network.dart';
 
 
 class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
-  final DioClient _cryptoFeedHttpClient;
+  final DioClient _dioClient;
 
-  LoadCryptoFeedRemoteUseCases(this._cryptoFeedHttpClient);
+  LoadCryptoFeedRemoteUseCases(this._dioClient);
 
   @override
   Stream<CryptoFeedResult> load() async* {
     try {
-      await for (var result in _cryptoFeedHttpClient.get()) {
+      await for (var result in _dioClient.get()) {
         if (result.type == StatusNetworkType.success) {
           final cryptoFeed = result.data;
           if (cryptoFeed!.data.isNotEmpty) {
-            // Mapping data and printing debug info
-            final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed.data as CryptoFeedModelResponses) as List<CryptoFeedModelDomain>?;
-            print('Mapped Data: $mappedData');
-            yield CryptoFeedResult.success(mappedData);
+            yield CryptoFeedResult.success(CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed.data as CryptoFeedModelResponses) as List<CryptoFeedModelDomain>?);
           } else {
             yield CryptoFeedResult.success([]); // Return empty list if data is empty
           }

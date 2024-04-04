@@ -15,7 +15,7 @@ class CryptoFeedDioClient implements DioClient{
     try {
       yield DioClientResult.success(await cryptoFeedService.get());
     } catch (error) {
-      if (error is IOException) {
+      if (error is SocketException) {
         yield DioClientResult.failure(ConnectivityException());
       } else if (error is HttpException) {
         yield DioClientResult.failure(InvalidDataException());
