@@ -6,6 +6,7 @@ import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 
+
 class CryptoFeedScreen extends StatefulWidget {
   const CryptoFeedScreen({super.key});
 
@@ -14,27 +15,26 @@ class CryptoFeedScreen extends StatefulWidget {
 }
 
 class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
-  late CryptoFeedViewModel _viewModel;
+  late final CryptoFeedViewModel viewModel;
+  late final _pullRefreshState = GlobalKey<RefreshIndicatorState>();
   late StreamController<CryptoFeedUiState> _streamController;
   late Stream<CryptoFeedUiState> _stream;
 
   @override
   void initState() {
     super.initState();
-    _viewModel = CryptoFeedViewModel.create();
+    viewModel = CryptoFeedViewModel.create();
     _streamController = StreamController<CryptoFeedUiState>();
     _stream = _streamController.stream;
-    _viewModel.addListener(() {
-      _streamController.add(_viewModel.cryptoFeedUiState);
+    viewModel.addListener(() {
+      _streamController.add(viewModel.cryptoFeedUiState);
     });
-    _viewModel.loadCryptoFeed();
+    viewModel.loadCryptoFeed();
   }
 
-  @override
-  void dispose() {
-    _streamController.close();
-    _viewModel.dispose();
-    super.dispose();
+  Future<void> _handleRefresh() async {
+    // Panggil fungsi loadCryptoFeed pada viewModel
+    viewModel.loadCryptoFeed();
   }
 
   @override
@@ -43,18 +43,23 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
       appBar: AppBar(
         title: const Text('Crypto Feed'),
       ),
-      body: StreamBuilder<CryptoFeedUiState>(
-        stream: _stream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final state = snapshot.data!;
-            return _buildBody(state);
-          }
-        },
+      body: RefreshIndicator(
+        key: _pullRefreshState,
+        onRefresh: _handleRefresh, // Ganti pemanggilan fungsi refresh
+        child: StreamBuilder<CryptoFeedUiState>(
+          stream: _stream,
+          initialData: const CryptoFeedUiState.noCryptoFeed(isLoading: true, failed: ''),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              final state = snapshot.data!;
+              return _buildBody(state);
+            }
+          },
+        ),
       ),
     );
   }
@@ -63,8 +68,9 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
     if (state is NoCryptoFeed) {
       return Center(child: Text(state.failed));
     } else if (state is HasCryptoFeed) {
-      // If there is data, display the CryptoFeedList
-      return CryptoFeedList(items: state.cryptoFeeds);
+      return CryptoFeedList(
+        items: state.cryptoFeeds,
+      );
     } else {
       return const Center(child: Text('Unknown state'));
     }
