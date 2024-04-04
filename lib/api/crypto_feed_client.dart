@@ -1,6 +1,7 @@
 import 'package:crypto_app/infra/crypto_feed_response.dart';
 import 'package:crypto_app/infra/crypto_feed_services.dart';
-import 'package:crypto_app/utils/http_client.dart';
+import 'package:crypto_app/utils/error_handling.dart';
+import 'package:crypto_app/utils/http_client_result.dart';
 
 class CryptoFeedClient {
   final CryptoFeedService _cryptoFeedService;

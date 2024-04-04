@@ -3,7 +3,7 @@
 import 'package:crypto_app/api/remote_crypto_feed.dart';
 import 'package:crypto_app/main/remote_crpyto_feed_loader_factory.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
-import 'package:crypto_app/utils/http_client.dart';
+import 'package:crypto_app/utils/error_handling.dart';
 import 'package:crypto_app/utils/status_network.dart';
 import 'package:flutter/foundation.dart';
 
@@ -29,7 +29,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
           cryptoFeeds: result.cryptoFeedItems!,
           failed: '',
         );
-        print('CryptoFeedViewModel: ${result.cryptoFeedItems!.length}');
+        print('CryptoFeedViewModel: ${result.cryptoFeedItems!.first.data}');
       } else if (result.type == StatusNetworkType.failure) {
         _cryptoFeedUiState = CryptoFeedUiState.noCryptoFeed(
           isLoading: false,
@@ -43,11 +43,11 @@ class CryptoFeedViewModel extends ChangeNotifier {
 
   String _getFailedMessage(dynamic error) {
     if (error is ConnectivityException) {
-      return 'Connectivity';
+      return 'Connectivity Error';
     } else if (error is InvalidDataException) {
-      return 'Invalid Data';
+      return 'Invalid Data Error';
     } else {
-      return 'Something Went Wrong';
+      return 'Unknown Error';
     }
   }
 
