@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
@@ -5,7 +7,7 @@ import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 
 class CryptoFeedScreen extends StatefulWidget {
-  const CryptoFeedScreen({Key? key}) : super(key: key);
+  const CryptoFeedScreen({super.key});
 
   @override
   _CryptoFeedScreenState createState() => _CryptoFeedScreenState();
