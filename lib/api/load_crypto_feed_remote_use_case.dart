@@ -1,4 +1,5 @@
-// ignore_for_file: avoid_print
+
+// ignore_for_file: unnecessary_brace_in_string_interps, avoid_print
 
 import 'package:crypto_app/api/crypto_feed_result.dart';
 import 'package:crypto_app/api/crypto_feed_loader.dart';
@@ -8,7 +9,7 @@ import 'package:crypto_app/infra/crypto_feed_response.dart';
 import 'package:crypto_app/infra/dio_client.dart';
 import 'package:crypto_app/utils/error_handling.dart';
 import 'package:crypto_app/utils/status_network.dart';
-
+import 'package:flutter/foundation.dart';
 
 class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
   final DioClient _dioClient;
@@ -22,18 +23,29 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
         if (result.type == StatusNetworkType.success) {
           final cryptoFeed = result.data;
           if (cryptoFeed!.data.isNotEmpty) {
-            yield CryptoFeedResult.success(CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed.data as CryptoFeedModelResponses) as List<CryptoFeedModelDomain>?);
+            final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed.data as CryptoFeedModelResponses);
+            yield CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
+            if (kDebugMode) {
+              print('Sukses Mapped Data: $mappedData');
+            }
           } else {
-            yield CryptoFeedResult.success([]); // Return empty list if data is empty
+            yield CryptoFeedResult.success([]);
           }
         } else {
-          // Handle failure case
           if (result.error is ConnectivityException) {
             yield CryptoFeedResult.failure(ConnectivityException());
+             if (kDebugMode) {
+              print('Sukses Mapped Data: $ConnectivityException');
+            }
           } else if (result.error is InvalidDataException) {
             yield CryptoFeedResult.failure(InvalidDataException());
+             if (kDebugMode) {
+              print('Sukses Mapped Data: $InvalidDataException');
+            }
           } else {
             yield CryptoFeedResult.failure(UnknownError());
+            print('Sukses Mapped Data: $UnknownError');
+
           }
         }
       }

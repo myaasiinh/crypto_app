@@ -20,13 +20,15 @@ class CryptoFeedMapper {
   }
 
   static List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
-    return dataList.map((datum) {
-      return modelDomain.Datum(
-        coinInfo: _mapCoinInfo(datum.coinInfo),
-        raw: _mapRaw(datum.raw),
-        display: _mapDisplay(datum.display),
-      );
-    }).toList();
+    return dataList.map(_mapDatum).toList();
+  }
+
+  static modelDomain.Datum _mapDatum(modelResponses.Datum datum) {
+    return modelDomain.Datum(
+      coinInfo: _mapCoinInfo(datum.coinInfo),
+      raw: _mapRaw(datum.raw),
+      display: _mapDisplay(datum.display),
+    );
   }
 
   static modelDomain.CoinInfo _mapCoinInfo(modelResponses.CoinInfo coinInfo) {

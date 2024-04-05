@@ -9,18 +9,14 @@ import 'package:flutter/foundation.dart';
 
 class CryptoFeedViewModel extends ChangeNotifier {
   final CryptoFeedLoader cryptoFeedLoader;
-
   CryptoFeedViewModel({required this.cryptoFeedLoader}) {
     loadCryptoFeed();
   }
-
   CryptoFeedUiState _cryptoFeedUiState = const CryptoFeedUiState.noCryptoFeed(
     isLoading: true,
     failed: '',
   );
-
   CryptoFeedUiState get cryptoFeedUiState => _cryptoFeedUiState;
-
   void loadCryptoFeed() {
     cryptoFeedLoader.load().listen((result) {
       if (result.type == StatusNetworkType.success) {
@@ -29,6 +25,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
           cryptoFeeds: result.cryptoFeedItems!,
           failed: '',
         );
+        print('CryptoFeedViewModel: ${result.cryptoFeedItems!.length}');
         print('CryptoFeedViewModel: ${result.cryptoFeedItems!.first.data}');
       } else if (result.type == StatusNetworkType.failure) {
         _cryptoFeedUiState = CryptoFeedUiState.noCryptoFeed(
@@ -43,9 +40,9 @@ class CryptoFeedViewModel extends ChangeNotifier {
 
   String _getFailedMessage(dynamic error) {
     if (error is ConnectivityException) {
-      return 'Connectivity Error';
+      return 'Connectivity';
     } else if (error is InvalidDataException) {
-      return 'Invalid Data Error';
+      return 'Invalid Data';
     } else {
       return 'Unknown Error';
     }
