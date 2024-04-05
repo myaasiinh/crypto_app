@@ -26,7 +26,7 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
             final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed.data as CryptoFeedModelResponses);
             yield CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
             if (kDebugMode) {
-              print('Sukses Mapped Data: $mappedData');
+              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $mappedData');
             }
           } else {
             yield CryptoFeedResult.success([]);
@@ -35,16 +35,16 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
           if (result.error is ConnectivityException) {
             yield CryptoFeedResult.failure(ConnectivityException());
              if (kDebugMode) {
-              print('Sukses Mapped Data: $ConnectivityException');
+              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $ConnectivityException');
             }
           } else if (result.error is InvalidDataException) {
             yield CryptoFeedResult.failure(InvalidDataException());
              if (kDebugMode) {
-              print('Sukses Mapped Data: $InvalidDataException');
+              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $InvalidDataException');
             }
           } else {
             yield CryptoFeedResult.failure(UnknownError());
-            print('Sukses Mapped Data: $UnknownError');
+            print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $UnknownError');
 
           }
         }
