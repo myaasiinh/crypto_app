@@ -1,0 +1,4 @@
+enum StatusNetworkType {
+  success,
+  failure,
+}

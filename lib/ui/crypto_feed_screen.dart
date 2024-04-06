@@ -1,59 +1,62 @@
-import 'package:crypto_app/api/remote_crypto_feed.dart';
-import 'package:crypto_app/infra_api/crypto_feed_services.dart';
-import 'package:crypto_app/presentation/crypto_feed_item_viewmodel.dart';
-import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
-import 'package:flutter/material.dart';
+// ignore_for_file: library_private_types_in_public_api
 
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
+import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
+import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 
 class CryptoFeedScreen extends StatefulWidget {
+  const CryptoFeedScreen({super.key});
+
   @override
   _CryptoFeedScreenState createState() => _CryptoFeedScreenState();
 }
 
 class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
-  final CryptoFeedViewModel viewModel = CryptoFeedViewModel(
-    // Inject dependencies
-    loadCryptoFeedRemoteUseCases: LoadCryptoFeedRemoteUseCases(
-      remoteCryptoFeed: RemoteCryptoFeed(
-        cryptoFeedService: CryptoFeedService(
-          ),
-        ),
-      ),
-    ),
-  ); // Instantiate view model
+  late final CryptoFeedViewModel viewModel;
+  late final _pullRefreshState = GlobalKey<RefreshIndicatorState>();
+  late StreamController<CryptoFeedUiState> _streamController;
+  late Stream<CryptoFeedUiState> _stream;
 
   @override
   void initState() {
     super.initState();
-    fetchData(); // Fetch data when screen is initialized
+    viewModel = CryptoFeedViewModel.create();
+    _streamController = StreamController<CryptoFeedUiState>();
+    _stream = _streamController.stream;
+    viewModel.addListener(() {
+      _streamController.add(viewModel.cryptoFeedUiState);
+    });
+    viewModel.loadCryptoFeed();
   }
 
-  Future<void> fetchData() async {
-    await viewModel.fetchCryptoFeed(); // Call method to fetch crypto feed
+  Future<void> _handleRefresh() async {
+    // Panggil fungsi loadCryptoFeed pada viewModel
+    viewModel.loadCryptoFeed();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Crypto Feed'),
+        title: const Text('Crypto Feed'),
       ),
-      body: Center(
-        child: FutureBuilder(
-          future: viewModel.fetchCryptoFeed(), // Call method to fetch crypto feed
-          builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
+      body: RefreshIndicator(
+        key: _pullRefreshState,
+        onRefresh: _handleRefresh, // Ganti pemanggilan fungsi refresh
+        child: StreamBuilder<CryptoFeedUiState>(
+          stream: _stream,
+          initialData:
+              const CryptoFeedUiState.noCryptoFeed(isLoading: true, failed: ''),
+          builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator(); // Show loading indicator while waiting for data
+              return const Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Text('Error: ${snapshot.error}'); // Show error message if data fetching fails
+              return Center(child: Text('Error: ${snapshot.error}'));
             } else {
-              // Display fetched data
-              return ListView.builder(
-                itemCount: viewModel.cryptoFeedItems.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _buildCryptoFeedItem(viewModel.cryptoFeedItems[index]);
-                },
-              );
+              final state = snapshot.data!;
+              return _buildBody(state);
             }
           },
         ),
@@ -61,13 +64,15 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
     );
   }
 
-  Widget _buildCryptoFeedItem(CryptoFeedItemViewModel item) {
-    return ListTile(
-      leading: Image.network(item.image), // Show coin image
-      title: Text(item.coinName), // Show coin name
-      subtitle: Text(item.symbol), // Show coin symbol
-      trailing: Text('\$${item.currentPrice.toStringAsFixed(2)}'), // Show current price
-      // Add other details as needed
-    );
+  Widget _buildBody(CryptoFeedUiState state) {
+    if (state is NoCryptoFeed) {
+      return Center(child: Text(state.failed));
+    } else if (state is HasCryptoFeed) {
+      return CryptoFeedList(
+        items: state.cryptoFeeds,
+      );
+    } else {
+      return const Center(child: Text('Unknown state'));
+    }
   }
 }

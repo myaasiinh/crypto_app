@@ -1,0 +1,16 @@
+domain
+- CryptoFeed -> domain model
+- ⁠<LoadCryptoFeedUseCase> -> interface
+
+api (use case remote)
+- LoadCryptoFeedRemoteUseCase
+- ⁠<HTTPClient> -> interface (sama kayak interface repository)
+- ⁠RemoteCryptoFeed -> remote model
+
+api infra
+- CryptoFeedDioClient -> sama kayak repository implementation
+- ⁠CryptoFeedService -> buat end point kalo diflutter tinggal sesuaikan aja, kalo gaperlu, yaudah dihapus aja
+- ⁠⁠CryptoFeedResponse -> response model yang berisi anotasi json
+
+presentation
+- CryptoFeedItemViewModel -> presentation model buat ditampilin di UI

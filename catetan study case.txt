@@ -1,0 +1,37 @@
+
+
+bootcamp senior flutter developer @aej :
+
+studi kasus : caching mechanism crpyto apps
+tech stack : flutter, clean architecture, material3, untuk presentation layer nya pake mvvm, dimana saya diberikan architecture fokus ke api:
+
+
+struktur project &  files :
+
+a. infra_api :
+
+1. crypto_feed_service -> buat end point kalo diflutter tinggal sesuaikan aja, kalo gaperlu, yaudah dihapus aja
+2. crypto_feed_dio_client -> sama kayak repository implementation
+3. crypto_feed_response -> response model yang berisi anotasi json
+
+b. api :
+
+1. remote_crpyto_feed -> remote model
+2. crypto_feed_client -> interface (sama kayak interface repository)
+3. load _crpyto_feed_remote_use_cases
+
+c. domain :
+
+1. crpyto_feed -> domain model
+2. <load_crpyto_feed_usecases> -> interface
+
+d. presentation :
+1. crpytofeed_item_viewmodel -> presentation model buat ditampilin di UI
+
+e. ui :
+1. crypto_feed_screen
+
+
+
+
+
