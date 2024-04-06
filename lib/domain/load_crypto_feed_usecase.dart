@@ -1,7 +1,6 @@
 import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:crypto_app/utils/status_network.dart';
 
-
 class LoadCryptoFeedUseCase {
   final StatusNetworkType type;
   final List<CryptoFeedModelDomain>? data;

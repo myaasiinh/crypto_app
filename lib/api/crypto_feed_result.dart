@@ -6,7 +6,8 @@ class CryptoFeedResult {
   List<CryptoFeedModelDomain>? cryptoFeedItems;
   dynamic error;
 
-  CryptoFeedResult.success(this.cryptoFeedItems) : type = StatusNetworkType.success;
+  CryptoFeedResult.success(this.cryptoFeedItems)
+      : type = StatusNetworkType.success;
 
   CryptoFeedResult.failure(this.error) : type = StatusNetworkType.failure;
 }

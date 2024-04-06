@@ -2,20 +2,24 @@
 
 import 'package:crypto_app/domain/crypto_feed_domain.dart' as modelDomain;
 import 'package:crypto_app/infra/crypto_feed_response.dart' as modelResponses;
+
 class CryptoFeedMapper {
-  static List<modelDomain.CryptoFeedModelDomain> map(modelResponses.CryptoFeedModelResponses response) {
+  static List<modelDomain.CryptoFeedModelDomain> map(
+      modelResponses.CryptoFeedModelResponses response) {
     final data = _mapData(response.data);
-    return [modelDomain.CryptoFeedModelDomain(
-      message: response.message,
-      type: response.type,
-      hasWarning: response.hasWarning,
-      metaData: modelDomain.MetaData(
-        count: response.metaData.count,
-      ),
-      rateLimit: modelDomain.RateLimit(),
-      sponsoredData: response.sponsoredData,
-      data: data,
-    )];
+    return [
+      modelDomain.CryptoFeedModelDomain(
+        message: response.message,
+        type: response.type,
+        hasWarning: response.hasWarning,
+        metaData: modelDomain.MetaData(
+          count: response.metaData.count,
+        ),
+        rateLimit: modelDomain.RateLimit(),
+        sponsoredData: response.sponsoredData,
+        data: data,
+      )
+    ];
   }
 
   static List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
@@ -43,8 +47,10 @@ class CryptoFeedMapper {
       rating: modelDomain.Rating(
         weiss: modelDomain.Weiss(
           rating: coinInfo.rating.weiss.rating,
-          technologyAdoptionRating: coinInfo.rating.weiss.technologyAdoptionRating,
-          marketPerformanceRating: coinInfo.rating.weiss.marketPerformanceRating,
+          technologyAdoptionRating:
+              coinInfo.rating.weiss.technologyAdoptionRating,
+          marketPerformanceRating:
+              coinInfo.rating.weiss.marketPerformanceRating,
         ),
       ),
       netHashesPerSecond: coinInfo.netHashesPerSecond,

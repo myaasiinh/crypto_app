@@ -6,7 +6,9 @@ import 'package:crypto_app/infra/dio_client.dart';
 
 class CryptoFeedDioClientFactory {
   static DioClient createCryptoFeedDioClient() {
-    final cryptoFeedService = CryptoFeedServiceFactory.createCryptoFeedService();
-    return CryptoFeedDioClient(cryptoFeedService); // Assuming CryptoFeedClient accepts CryptoFeedService in its constructor.
+    final cryptoFeedService =
+        CryptoFeedServiceFactory.createCryptoFeedService();
+    return CryptoFeedDioClient(
+        cryptoFeedService); // Assuming CryptoFeedClient accepts CryptoFeedService in its constructor.
   }
 }

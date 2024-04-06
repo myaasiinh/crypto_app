@@ -1,4 +1,3 @@
-
 // Exception untuk menangani masalah koneksi
 class ConnectivityException implements Exception {
   final String message;

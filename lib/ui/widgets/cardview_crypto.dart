@@ -9,26 +9,19 @@ class CryptoFeedList extends StatelessWidget {
 
   CryptoFeedList({
     required this.items,
-  }
-  
-  );
-
-  
-
-  
-
+  });
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
-        final cryptoFeed = items[index];
+        final cryptoFeed = items[index].data.isNotEmpty ? items[index] : null;
         return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              _buildIcon(cryptoFeed),
+              _buildIcon(cryptoFeed!),
               const SizedBox(width: 20),
               _buildTexts(cryptoFeed),
               const SizedBox(width: 20),
@@ -43,7 +36,8 @@ class CryptoFeedList extends StatelessWidget {
   Widget _buildIcon(CryptoFeedModelDomain cryptoFeed) {
     return ClipOval(
       child: CachedNetworkImage(
-        imageUrl: "https://cryptocompare.com/${cryptoFeed.data.first.coinInfo.imageUrl}",
+        imageUrl:
+            "https://cryptocompare.com/${cryptoFeed.data.last.coinInfo.imageUrl}",
         width: 50,
         height: 50,
         placeholder: (context, url) => const CircularProgressIndicator(),
@@ -59,12 +53,13 @@ class CryptoFeedList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            cryptoFeed.data.first.coinInfo.fullName,
+            cryptoFeed.data.last.coinInfo.fullName,
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            cryptoFeed.data.first.coinInfo.name,
-            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
+            cryptoFeed.data.last.coinInfo.name,
+            style: const TextStyle(
+                fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
           ),
         ],
       ),
@@ -78,14 +73,16 @@ class CryptoFeedList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Text(
-            "\$" + cryptoFeed.data.first.raw.usd.price.toString(),
+            "\$" + cryptoFeed.data.last.raw.usd.price.toString(),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           Text(
-            cryptoFeed.data.first.raw.usd.changepctday.toString() + "%",
+            cryptoFeed.data.last.raw.usd.changepctday.toString() + "%",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: cryptoFeed.data.first.raw.usd.changepctday < 0 ? Colors.red : Colors.green,
+              color: cryptoFeed.data.last.raw.usd.changepctday < 0
+                  ? Colors.red
+                  : Colors.green,
             ),
           ),
         ],

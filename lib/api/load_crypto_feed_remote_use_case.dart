@@ -1,4 +1,3 @@
-
 // ignore_for_file: unnecessary_brace_in_string_interps, avoid_print
 
 import 'package:crypto_app/api/crypto_feed_result.dart';
@@ -23,7 +22,8 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
           if (cryptoFeed!.data.isNotEmpty) {
             yield CryptoFeedResult.success(CryptoFeedMapper.map(cryptoFeed));
             if (kDebugMode) {
-              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $cryptoFeed');
+              print(
+                  'LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $cryptoFeed');
             }
           } else {
             yield CryptoFeedResult.success([]);
@@ -31,18 +31,20 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
         } else {
           if (result.error is ConnectivityException) {
             yield CryptoFeedResult.failure(ConnectivityException());
-             if (kDebugMode) {
-              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $ConnectivityException');
+            if (kDebugMode) {
+              print(
+                  'LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $ConnectivityException');
             }
           } else if (result.error is InvalidDataException) {
             yield CryptoFeedResult.failure(InvalidDataException());
-             if (kDebugMode) {
-              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $InvalidDataException');
+            if (kDebugMode) {
+              print(
+                  'LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $InvalidDataException');
             }
           } else {
             yield CryptoFeedResult.failure(UnknownError());
-            print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $UnknownError');
-
+            print(
+                'LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $UnknownError');
           }
         }
       }

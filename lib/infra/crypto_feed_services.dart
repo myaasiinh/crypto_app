@@ -7,7 +7,7 @@ class CryptoFeedService {
   CryptoFeedService(this._dio);
 
   Future<CryptoFeedModelResponses> get({
-    int? limit = 2,
+    int? limit = 20,
     String? tsym = "USD",
   }) async {
    final response = await _dio.get(

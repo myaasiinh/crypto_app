@@ -10,4 +10,3 @@ class DioClientResult {
 
   DioClientResult.failure(this.error) : type = StatusNetworkType.failure;
 }
-

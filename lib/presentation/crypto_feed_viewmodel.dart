@@ -25,8 +25,8 @@ class CryptoFeedViewModel extends ChangeNotifier {
           cryptoFeeds: result.cryptoFeedItems!,
           failed: '',
         );
-        print('CryptoFeedViewModel: ${result.cryptoFeedItems!.length}');
-        print('CryptoFeedViewModel: ${result.cryptoFeedItems!.first.data}');
+       print('CryptoFeedViewModel sukses load data: ${result.cryptoFeedItems!.length}');
+      print('CryptoFeedViewModel: ${result.cryptoFeedItems!.first.data}');
       } else if (result.type == StatusNetworkType.failure) {
         _cryptoFeedUiState = CryptoFeedUiState.noCryptoFeed(
           isLoading: false,

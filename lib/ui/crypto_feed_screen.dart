@@ -6,7 +6,6 @@ import 'package:crypto_app/presentation/crypto_feed_viewmodel.dart';
 import 'package:crypto_app/presentation/crypto_feed_viewmodel_state.dart';
 import 'package:crypto_app/ui/widgets/cardview_crypto.dart';
 
-
 class CryptoFeedScreen extends StatefulWidget {
   const CryptoFeedScreen({super.key});
 
@@ -48,7 +47,8 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
         onRefresh: _handleRefresh, // Ganti pemanggilan fungsi refresh
         child: StreamBuilder<CryptoFeedUiState>(
           stream: _stream,
-          initialData: const CryptoFeedUiState.noCryptoFeed(isLoading: true, failed: ''),
+          initialData:
+              const CryptoFeedUiState.noCryptoFeed(isLoading: true, failed: ''),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
