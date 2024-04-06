@@ -3,7 +3,7 @@
 import 'package:crypto_app/domain/crypto_feed_domain.dart' as modelDomain;
 import 'package:crypto_app/infra/crypto_feed_response.dart' as modelResponses;
 class CryptoFeedMapper {
-  static List<modelDomain.CryptoFeedModelDomain> fromModelResponseMapDomain(modelResponses.CryptoFeedModelResponses response) {
+  static List<modelDomain.CryptoFeedModelDomain> map(modelResponses.CryptoFeedModelResponses response) {
     final data = _mapData(response.data);
     return [modelDomain.CryptoFeedModelDomain(
       message: response.message,

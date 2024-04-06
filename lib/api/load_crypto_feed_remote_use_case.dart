@@ -21,10 +21,9 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
         if (result.type == StatusNetworkType.success) {
           final cryptoFeed = result.data;
           if (cryptoFeed!.data.isNotEmpty) {
-            final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed);
-            yield CryptoFeedResult.success(mappedData);
+            yield CryptoFeedResult.success(CryptoFeedMapper.map(cryptoFeed));
             if (kDebugMode) {
-              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $mappedData');
+              print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $cryptoFeed');
             }
           } else {
             yield CryptoFeedResult.success([]);
