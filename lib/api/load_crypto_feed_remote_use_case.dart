@@ -3,9 +3,7 @@
 
 import 'package:crypto_app/api/crypto_feed_result.dart';
 import 'package:crypto_app/api/crypto_feed_loader.dart';
-import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:crypto_app/domain/item_mapper_crypto_feed.dart';
-import 'package:crypto_app/infra/crypto_feed_response.dart';
 import 'package:crypto_app/infra/dio_client.dart';
 import 'package:crypto_app/utils/error_handling.dart';
 import 'package:crypto_app/utils/status_network.dart';
@@ -23,8 +21,8 @@ class LoadCryptoFeedRemoteUseCases implements CryptoFeedLoader {
         if (result.type == StatusNetworkType.success) {
           final cryptoFeed = result.data;
           if (cryptoFeed!.data.isNotEmpty) {
-            final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed.data as CryptoFeedModelResponses);
-            yield CryptoFeedResult.success(mappedData as List<CryptoFeedModelDomain>?);
+            final mappedData = CryptoFeedMapper.fromModelResponseMapDomain(cryptoFeed);
+            yield CryptoFeedResult.success(mappedData);
             if (kDebugMode) {
               print('LoadCryptoFeedRemoteUseCases Sukses Mapped Data: $mappedData');
             }

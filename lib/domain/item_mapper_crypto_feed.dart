@@ -2,11 +2,10 @@
 
 import 'package:crypto_app/domain/crypto_feed_domain.dart' as modelDomain;
 import 'package:crypto_app/infra/crypto_feed_response.dart' as modelResponses;
-
 class CryptoFeedMapper {
-  static modelDomain.CryptoFeedModelDomain fromModelResponseMapDomain(modelResponses.CryptoFeedModelResponses response) {
+  static List<modelDomain.CryptoFeedModelDomain> fromModelResponseMapDomain(modelResponses.CryptoFeedModelResponses response) {
     final data = _mapData(response.data);
-    return modelDomain.CryptoFeedModelDomain(
+    return [modelDomain.CryptoFeedModelDomain(
       message: response.message,
       type: response.type,
       hasWarning: response.hasWarning,
@@ -16,7 +15,7 @@ class CryptoFeedMapper {
       rateLimit: modelDomain.RateLimit(),
       sponsoredData: response.sponsoredData,
       data: data,
-    );
+    )];
   }
 
   static List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
