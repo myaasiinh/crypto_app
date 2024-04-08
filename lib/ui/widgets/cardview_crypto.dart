@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_app/domain/crypto_feed_domain.dart';
@@ -14,7 +16,9 @@ class CryptoFeedList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: items.length,
-      separatorBuilder: (BuildContext context, int index) => const Divider(height: 15, color: Colors.black),
+      separatorBuilder: (BuildContext context, int index) => Container(height: 10, decoration: BoxDecoration(
+          color: Colors.amber,
+        ),),
       itemBuilder: (BuildContext context, int index) {
         return _buildCryptoFeedItem(items[index]);
       },
@@ -24,8 +28,8 @@ class CryptoFeedList extends StatelessWidget {
   Widget _buildCryptoFeedItem(CryptoFeedModelDomain cryptoFeed) {
     return Column(
       children: cryptoFeed.data.map((feedItem) {
-        return Container(
-          padding: const EdgeInsets.all(8.0),
+        return Padding(
+          padding: const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
