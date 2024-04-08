@@ -35,13 +35,18 @@ class CryptoFeedList extends StatelessWidget {
 
   Widget _buildIcon(CryptoFeedModelDomain cryptoFeed) {
     return ClipOval(
-      child: CachedNetworkImage(
-        imageUrl:
-            "https://cryptocompare.com/${cryptoFeed.data.last.coinInfo.imageUrl}",
-        width: 50,
-        height: 50,
-        placeholder: (context, url) => const CircularProgressIndicator(),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
+      child: Column(
+        children: cryptoFeed.data
+            .map((feedItem) => CachedNetworkImage(
+                  imageUrl:
+                      "https://cryptocompare.com/${feedItem.coinInfo.imageUrl}",
+                  width: 50,
+                  height: 50,
+                  placeholder: (context, url) =>
+                      const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                ))
+            .toList(),
       ),
     );
   }
@@ -51,17 +56,24 @@ class CryptoFeedList extends StatelessWidget {
       flex: 5,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            cryptoFeed.data.last.coinInfo.fullName,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            cryptoFeed.data.last.coinInfo.name,
-            style: const TextStyle(
-                fontSize: 12, fontWeight: FontWeight.bold, color: Colors.grey),
-          ),
-        ],
+        children: cryptoFeed.data
+            .map((feedItem) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      feedItem.coinInfo.fullName,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      feedItem.coinInfo.name,
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.grey),
+                    ),
+                  ],
+                ))
+            .toList(),
       ),
     );
   }
@@ -71,21 +83,26 @@ class CryptoFeedList extends StatelessWidget {
       flex: 3,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            "\$" + cryptoFeed.data.last.raw.usd.price.toString(),
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            cryptoFeed.data.last.raw.usd.changepctday.toString() + "%",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: cryptoFeed.data.last.raw.usd.changepctday < 0
-                  ? Colors.red
-                  : Colors.green,
-            ),
-          ),
-        ],
+        children: cryptoFeed.data
+            .map((feedItem) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      "\$" + feedItem.raw.usd.price.toString(),
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      feedItem.raw.usd.changepctday.toString() + "%",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: feedItem.raw.usd.changepctday < 0
+                            ? Colors.red
+                            : Colors.green,
+                      ),
+                    ),
+                  ],
+                ))
+            .toList(),
       ),
     );
   }
