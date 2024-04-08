@@ -25,8 +25,12 @@ class CryptoFeedViewModel extends ChangeNotifier {
           cryptoFeeds: result.cryptoFeedItems!,
           failed: '',
         );
-       print('CryptoFeedViewModel sukses load data: ${result.cryptoFeedItems!.length}');
-      print('CryptoFeedViewModel: ${result.cryptoFeedItems!.first.data}');
+        print(
+            'CryptoFeedViewModel: ${result.cryptoFeedItems!.map((e) => e.data.map((e) => e.coinInfo.name).toList()).toList()}');
+        print(
+            'CryptoFeedViewModel: ${result.cryptoFeedItems!.map((e) => e.data.map((e) => e.display.usd.price).toList()).toList()}');
+        print(
+            'CryptoFeedViewModel: ${result.cryptoFeedItems!.map((e) => e.data.map((e) => e.raw.usd.changepctday).toList()).toList()}');
       } else if (result.type == StatusNetworkType.failure) {
         _cryptoFeedUiState = CryptoFeedUiState.noCryptoFeed(
           isLoading: false,
@@ -50,7 +54,8 @@ class CryptoFeedViewModel extends ChangeNotifier {
 
   static CryptoFeedViewModel create() {
     return CryptoFeedViewModel(
-      cryptoFeedLoader: RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader(),
+      cryptoFeedLoader:
+          RemoteCryptoFeedLoaderFactory.createRemoteCryptoFeedLoader(),
     );
   }
 }
