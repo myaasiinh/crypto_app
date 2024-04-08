@@ -39,8 +39,17 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Crypto Feed'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: AppBar(
+          backgroundColor: const Color.fromRGBO(
+              95, 93, 156, 1.0), // Warna latar belakang kustom
+          centerTitle: true, // Mengatur judul ke posisi tengah
+          title: const Text(
+            'Crypto Feed',
+            style: TextStyle(color: Colors.white), // Warna teks judul
+          ),
+        ),
       ),
       body: RefreshIndicator(
         key: _pullRefreshState,
