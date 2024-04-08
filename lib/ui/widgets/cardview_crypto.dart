@@ -31,16 +31,22 @@ class CryptoFeedList extends StatelessWidget {
     return Column(
       children: cryptoFeed.data.map((feedItem) {
         return Padding(
-          padding:
-              const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
-          child: Card(
-            elevation: 4,
+          padding: const EdgeInsets.only(top: 10, bottom: 10),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(
+                      color: Colors.grey)), // Add border at the bottom
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildIcon(feedItem.coinInfo),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: _buildIcon(feedItem.coinInfo),
+                  ),
                   const SizedBox(
                       width: 8), // Add some space between icon and texts
                   Expanded(
@@ -49,10 +55,13 @@ class CryptoFeedList extends StatelessWidget {
                       children: _buildTexts(feedItem.coinInfo),
                     ),
                   ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: _buildPrices(feedItem.raw.usd),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 16),
+                    child: Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: _buildPrices(feedItem.raw.usd),
+                      ),
                     ),
                   ),
                 ],
