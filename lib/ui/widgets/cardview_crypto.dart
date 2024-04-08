@@ -16,9 +16,11 @@ class CryptoFeedList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: items.length,
-      separatorBuilder: (BuildContext context, int index) => Container(height: 10, decoration: BoxDecoration(
-          color: Colors.amber,
-        ),),
+      separatorBuilder: (BuildContext context, int index) => Divider(
+        thickness: 100,
+        height: 2,
+        color: Colors.amber,
+      ),
       itemBuilder: (BuildContext context, int index) {
         return _buildCryptoFeedItem(items[index]);
       },
@@ -29,25 +31,32 @@ class CryptoFeedList extends StatelessWidget {
     return Column(
       children: cryptoFeed.data.map((feedItem) {
         return Padding(
-          padding: const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildIcon(feedItem.coinInfo),
-              const SizedBox(width: 8), // Add some space between icon and texts
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildTexts(feedItem.coinInfo),
-                ),
+          padding:
+              const EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+          child: Card(
+            elevation: 4,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildIcon(feedItem.coinInfo),
+                  const SizedBox(width: 8), // Add some space between icon and texts
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: _buildTexts(feedItem.coinInfo),
+                    ),
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: _buildPrices(feedItem.raw.usd),
+                    ),
+                  ),
+                ],
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildPrices(feedItem.raw.usd),
-                ),
-              ),
-            ],
+            ),
           ),
         );
       }).toList(),
