@@ -1,6 +1,6 @@
-import 'package:crypto_app/domain/crypto_feed_domain.dart';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto_app/domain/crypto_feed_domain.dart';
 
 class CryptoFeedList extends StatelessWidget {
   final List<CryptoFeedModelDomain> items;
@@ -13,109 +13,100 @@ class CryptoFeedList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: items.map((cryptoFeed) {
-          return Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Card(
-              elevation: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    _buildIcon(cryptoFeed),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      flex: 5,
-                      child: _buildTexts(cryptoFeed),
-                    ),
-                    const SizedBox(width: 20),
-                    Expanded(
-                      flex: 3,
-                      child: _buildPrices(cryptoFeed),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        }).toList(),
+      child: ListView.separated(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: items.length,
+        separatorBuilder: (BuildContext context, int index) => const Divider(height: 15,),
+        itemBuilder: (BuildContext context, int index) {
+          return _buildCryptoFeedItem(items[index]);
+        },
       ),
     );
   }
 
-  Widget _buildIcon(CryptoFeedModelDomain cryptoFeed) {
-  return Column(
-    children: cryptoFeed.data.map((feedItem) {
-      return Padding(
+  Widget _buildCryptoFeedItem(CryptoFeedModelDomain cryptoFeed) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+         Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var feedItem in cryptoFeed.data)
+                ..._buildIcon(feedItem.coinInfo)
+            ],
+          ),
+        ),
+        
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var feedItem in cryptoFeed.data)
+                ..._buildTexts(feedItem.coinInfo),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              for (var feedItem in cryptoFeed.data)
+                ..._buildPrices(feedItem.raw.usd),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<Widget> _buildTexts(CoinInfo coinInfo) {
+    return [
+      Text(
+        coinInfo.fullName,
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(
+        coinInfo.name,
+        style: const TextStyle(
+          fontSize: 9,
+          fontWeight: FontWeight.bold,
+          color: Colors.grey,
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _buildPrices(RawUsd usd) {
+    return [
+      Text(
+        "\$${usd.price}",
+        style: const TextStyle(fontWeight: FontWeight.bold),
+      ),
+      Text(
+        "${usd.changepctday}%",
+      ),
+    ];
+  }
+
+  List<Widget> _buildIcon(CoinInfo coinInfo) {
+    return [
+      Padding(
         padding: const EdgeInsets.only(right: 8.0),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl:
-                "https://cryptocompare.com/${feedItem.coinInfo.imageUrl}",
+            imageUrl: "https://cryptocompare.com/${coinInfo.imageUrl}",
             width: 50,
             height: 50,
             placeholder: (context, url) => const CircularProgressIndicator(),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
-      );
-    }).toList(),
-  );
-}
-
-
-  Widget _buildTexts(CryptoFeedModelDomain cryptoFeed) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (var feedItem in cryptoFeed.data)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                feedItem.coinInfo.fullName,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                feedItem.coinInfo.name,
-                style: const TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.grey),
-              ),
-            ],
-          ),
-      ],
-    );
-  }
-
-  Widget _buildPrices(CryptoFeedModelDomain cryptoFeed) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        for (var feedItem in cryptoFeed.data)
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                "\$${feedItem.raw.usd.price}",
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                "${feedItem.raw.usd.changepctday}%",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: feedItem.raw.usd.changepctday < 0
-                      ? Colors.red
-                      : Colors.green,
-                ),
-              ),
-            ],
-          ),
-      ],
-    );
+      ),
+    ];
   }
 }
