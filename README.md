@@ -123,6 +123,5 @@ GET /data/top/totaltoptiervolfull
 }
 ```
 
-# Follow references :
+[Follow references](https://github.com/Android-Enthusiasts-Jakarta/bootcamp-sad-case-study/)
 
-https://github.com/Android-Enthusiasts-Jakarta/bootcamp-sad-case-study/
