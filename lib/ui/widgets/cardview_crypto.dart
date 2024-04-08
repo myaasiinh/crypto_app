@@ -41,7 +41,8 @@ class CryptoFeedList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildIcon(feedItem.coinInfo),
-                  const SizedBox(width: 8), // Add some space between icon and texts
+                  const SizedBox(
+                      width: 8), // Add some space between icon and texts
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,9 +99,11 @@ class CryptoFeedList extends StatelessWidget {
         "\$${usd.price}",
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
-      Text(
-        "${usd.changepctday}%",
-      ),
+      Text("${usd.changepctday}%",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: usd.changepctday < 0 ? Colors.red : Colors.green,
+          )),
     ];
   }
 }
