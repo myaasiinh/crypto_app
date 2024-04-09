@@ -123,8 +123,6 @@ GET /data/top/totaltoptiervolfull
 }
 ```
 
-<<<<<<< HEAD
-=======
 # Crypto_App
 
 Senior Flutter Developer Bootcamp at [Android Enthusiast Jakarta](https://www.instagram.com/hightech.id/).
@@ -250,6 +248,4 @@ GET /data/top/totaltoptiervolfull
 }
 ```
 
->>>>>>> rapiin-ui
 [Follow references](https://github.com/Android-Enthusiasts-Jakarta/bootcamp-sad-case-study/)
-
