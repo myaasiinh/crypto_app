@@ -57,11 +57,9 @@ class CryptoFeedList extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(right: 16),
-                    child: Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: _buildPrices(feedItem.raw.usd),
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: _buildPrices(feedItem.raw.usd),
                     ),
                   ),
                 ],
