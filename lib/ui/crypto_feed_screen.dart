@@ -86,8 +86,6 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   }
 }
 
-
-
 class CryptoFeedList extends StatelessWidget {
   final List<CryptoFeedModelDomain> items;
 
