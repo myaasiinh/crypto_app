@@ -1,13 +1,13 @@
 import 'package:crypto_app/domain/crypto_feed.dart';
 
-abstract class CryptoFeedResult {}
+abstract class CryptoFeedClient {}
 
-class CryptoFeedResultSuccess implements CryptoFeedResult {
+class CryptoFeedClienttSuccess implements CryptoFeedClient {
   final List<CryptoFeedModelDomain> data;
-  CryptoFeedResultSuccess(this.data);
+  CryptoFeedClienttSuccess(this.data);
 }
 
-class CryptoFeedResultFailure implements CryptoFeedResult {
+class CryptoFeedClientFailure implements CryptoFeedClient {
   final dynamic error;
-  CryptoFeedResultFailure(this.error);
+  CryptoFeedClientFailure(this.error);
 }

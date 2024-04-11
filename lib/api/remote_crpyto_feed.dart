@@ -1,21 +1,21 @@
 import 'package:crypto_app/infra/crypto_feed_response.dart';
 
-abstract class DioClientResult {}
+abstract class RemoteCryptoFeedResult {}
 
-class DioClientResultSuccess implements DioClientResult {
+class RemoteCryptoFeedSuccess implements RemoteCryptoFeedResult {
   final CryptoFeedModelResponses data;
 
-  DioClientResultSuccess(this.data);
+  RemoteCryptoFeedSuccess(this.data);
 }
 
-class DioClientResultFailure implements DioClientResult {
+class RemoteCryptoFeedFailure implements RemoteCryptoFeedResult {
   final dynamic error;
 
-  DioClientResultFailure(this.error);
+  RemoteCryptoFeedFailure(this.error);
 }
 
-abstract class DioClient {
-  Stream<DioClientResult> get();
+abstract class RemoteCryptoFeed {
+  Stream<RemoteCryptoFeedResult> get();
 }
 
 class ConnectivityException implements Exception {}

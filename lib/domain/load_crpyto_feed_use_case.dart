@@ -4,5 +4,5 @@
 import 'package:crypto_app/api/crypto_feed_client.dart';
 
 abstract class LoadCryptoFeedUseCases {
-  Stream<CryptoFeedResult> load();
+  Stream<CryptoFeedClient> load();
 }

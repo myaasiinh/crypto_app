@@ -5,6 +5,6 @@ class CryptoFeedServiceFactory {
   static CryptoFeedService createCryptoFeedService() {
     final dio = DioFactory.createDio();
     return CryptoFeedService(
-        dio); // Assuming CryptoFeedService constructor accepts Dio instance.
+        dio);
   }
 }

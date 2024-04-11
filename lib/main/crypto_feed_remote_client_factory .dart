@@ -4,11 +4,11 @@ import 'package:crypto_app/api/remote_crpyto_feed.dart';
 import 'package:crypto_app/infra/crypto_feed_dio_client.dart';
 import 'package:crypto_app/main/crypto_feed_service_factory.dart';
 
-class CryptoFeedDioClientFactory {
-  static DioClient createCryptoFeedDioClient() {
+class CryptoFeedRemoteClientFactory {
+  static RemoteCryptoFeed createRemoteCryptoFeed() {
     final cryptoFeedService =
         CryptoFeedServiceFactory.createCryptoFeedService();
     return CryptoFeedDioClient(
-        cryptoFeedService); // Assuming CryptoFeedClient accepts CryptoFeedService in its constructor.
+        cryptoFeedService);
   }
 }

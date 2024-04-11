@@ -19,7 +19,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
   CryptoFeedUiState get cryptoFeedUiState => _cryptoFeedUiState;
   void loadCryptoFeed() {
     loadCryptoFeedUseCases.load().listen((result) {
-      if (result is CryptoFeedResultSuccess) {
+      if (result is CryptoFeedClienttSuccess) {
         _cryptoFeedUiState = CryptoFeedUiState.hasCryptoFeed(
           isLoading: false,
           cryptoFeeds: result.data,
@@ -31,7 +31,7 @@ class CryptoFeedViewModel extends ChangeNotifier {
             'CryptoFeedViewModel: ${result.data.map((e) => e.data.map((e) => e.display.usd.price).toList()).toList()}');
         print(
             'CryptoFeedViewModel: ${result.data.map((e) => e.data.map((e) => e.raw.usd.changepctday).toList()).toList()}');
-      } else if (result is CryptoFeedResultFailure) {
+      } else if (result is CryptoFeedClientFailure) {
         _cryptoFeedUiState = CryptoFeedUiState.noCryptoFeed(
           isLoading: false,
           failed: _getFailedMessage(result.error),

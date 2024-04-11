@@ -32,7 +32,6 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
   }
 
   Future<void> _handleRefresh() async {
-    // Panggil fungsi loadCryptoFeed pada viewModel
     viewModel.loadCryptoFeed();
   }
 
@@ -43,17 +42,17 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: AppBar(
           backgroundColor: const Color.fromRGBO(
-              95, 93, 156, 1.0), // Warna latar belakang kustom
-          centerTitle: true, // Mengatur judul ke posisi tengah
+              95, 93, 156, 1.0),
+          centerTitle: true,
           title: const Text(
             'Crypto Feed',
-            style: TextStyle(color: Colors.white), // Warna teks judul
+            style: TextStyle(color: Colors.white),
           ),
         ),
       ),
       body: RefreshIndicator(
         key: _pullRefreshState,
-        onRefresh: _handleRefresh, // Ganti pemanggilan fungsi refresh
+        onRefresh: _handleRefresh,
         child: StreamBuilder<CryptoFeedUiState>(
           stream: _stream,
           initialData:
@@ -118,7 +117,7 @@ class CryptoFeedList extends StatelessWidget {
             decoration: BoxDecoration(
               border: Border(
                   bottom: BorderSide(
-                      color: Colors.grey)), // Add border at the bottom
+                      color: Colors.grey)),
             ),
             child: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -130,7 +129,7 @@ class CryptoFeedList extends StatelessWidget {
                     child: _buildIcon(feedItem.coinInfo),
                   ),
                   const SizedBox(
-                      width: 8), // Add some space between icon and texts
+                      width: 8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
