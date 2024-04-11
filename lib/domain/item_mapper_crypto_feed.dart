@@ -1,32 +1,31 @@
-// ignore_for_file: library_prefixes
+// ignore_for_file: library_prefixes, unnecessary_this
 
-import 'package:crypto_app/domain/crypto_feed_domain.dart' as modelDomain;
+import 'package:crypto_app/domain/crypto_feed.dart' as modelDomain;
 import 'package:crypto_app/infra/crypto_feed_response.dart' as modelResponses;
 
-class CryptoFeedMapper {
-  static List<modelDomain.CryptoFeedModelDomain> map(
-      modelResponses.CryptoFeedModelResponses response) {
-    final data = _mapData(response.data);
+extension CryptoFeedMapperExtension on modelResponses.CryptoFeedModelResponses {
+  List<modelDomain.CryptoFeedModelDomain> toDomain() {
+    final data = _mapData(this.data);
     return [
       modelDomain.CryptoFeedModelDomain(
-        message: response.message,
-        type: response.type,
-        hasWarning: response.hasWarning,
+        message: this.message,
+        type: this.type,
+        hasWarning: this.hasWarning,
         metaData: modelDomain.MetaData(
-          count: response.metaData.count,
+          count: this.metaData.count,
         ),
         rateLimit: modelDomain.RateLimit(),
-        sponsoredData: response.sponsoredData,
+        sponsoredData: this.sponsoredData,
         data: data,
       )
     ];
   }
 
-  static List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
+  List<modelDomain.Datum> _mapData(List<modelResponses.Datum> dataList) {
     return dataList.map(_mapDatum).toList();
   }
 
-  static modelDomain.Datum _mapDatum(modelResponses.Datum datum) {
+  modelDomain.Datum _mapDatum(modelResponses.Datum datum) {
     return modelDomain.Datum(
       coinInfo: _mapCoinInfo(datum.coinInfo),
       raw: _mapRaw(datum.raw),
@@ -34,7 +33,7 @@ class CryptoFeedMapper {
     );
   }
 
-  static modelDomain.CoinInfo _mapCoinInfo(modelResponses.CoinInfo coinInfo) {
+  modelDomain.CoinInfo _mapCoinInfo(modelResponses.CoinInfo coinInfo) {
     return modelDomain.CoinInfo(
       id: coinInfo.id,
       name: coinInfo.name,
@@ -64,7 +63,7 @@ class CryptoFeedMapper {
     );
   }
 
-  static modelDomain.Raw _mapRaw(modelResponses.Raw raw) {
+  modelDomain.Raw _mapRaw(modelResponses.Raw raw) {
     return modelDomain.Raw(
       usd: modelDomain.RawUsd(
         type: raw.usd.type,
@@ -119,7 +118,7 @@ class CryptoFeedMapper {
     );
   }
 
-  static modelDomain.Display _mapDisplay(modelResponses.Display display) {
+  modelDomain.Display _mapDisplay(modelResponses.Display display) {
     return modelDomain.Display(
       usd: modelDomain.DisplayUsd(
         fromsymbol: display.usd.fromsymbol,

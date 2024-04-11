@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io'; // Untuk mengakses HttpException
 import 'package:crypto_app/infra/crypto_feed_services.dart';
-import 'package:crypto_app/infra/dio_client.dart';
-import 'package:crypto_app/infra/dio_client_result.dart';
-import 'package:crypto_app/utils/error_handling.dart';
+import 'package:crypto_app/api/remote_crpyto_feed.dart';
 
 class CryptoFeedDioClient implements DioClient {
   final CryptoFeedService _cryptoFeedService;
@@ -12,13 +10,13 @@ class CryptoFeedDioClient implements DioClient {
   @override
   Stream<DioClientResult> get() async* {
     try {
-      yield DioClientResult.success(await _cryptoFeedService.get());
+      yield DioClientResultSuccess(await _cryptoFeedService.get());
     } catch (error) {
       if (error is SocketException) {
         // Menangani masalah koneksi
-        yield DioClientResult.failure(ConnectivityException());
+        yield DioClientResultFailure(ConnectivityException());
       } else {
-        yield DioClientResult.failure(InvalidDataException());
+        yield DioClientResultFailure(InvalidDataException());
       }
     }
   }
