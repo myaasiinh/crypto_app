@@ -1,649 +1,503 @@
-// To parse this JSON data, do
-//
-//     final cryptoFeedModelResponses = cryptoFeedModelResponsesFromMap(jsonString);
+import 'package:json_annotation/json_annotation.dart';
 
-import 'dart:convert';
+part 'crypto_feed_response.g.dart';
 
-CryptoFeedModelResponses cryptoFeedModelResponsesFromMap(String str) =>
-    CryptoFeedModelResponses.fromMap(json.decode(str));
-
-String cryptoFeedModelResponsesToMap(CryptoFeedModelResponses data) =>
-    json.encode(data.toMap());
-
+@JsonSerializable()
 class CryptoFeedModelResponses {
-  String message;
-  int type;
-  MetaData metaData;
-  List<dynamic> sponsoredData;
-  List<Datum> data;
-  RateLimit rateLimit;
-  bool hasWarning;
+    @JsonKey(name: "Message")
+    String message;
+    @JsonKey(name: "Type")
+    int type;
+    @JsonKey(name: "MetaData")
+    MetaData metaData;
+    @JsonKey(name: "SponsoredData")
+    List<dynamic> sponsoredData;
+    @JsonKey(name: "Data")
+    List<Datum> data;
+    @JsonKey(name: "RateLimit")
+    RateLimit rateLimit;
+    @JsonKey(name: "HasWarning")
+    bool hasWarning;
 
-  CryptoFeedModelResponses({
-    required this.message,
-    required this.type,
-    required this.metaData,
-    required this.sponsoredData,
-    required this.data,
-    required this.rateLimit,
-    required this.hasWarning,
-  });
+    CryptoFeedModelResponses({
+        required this.message,
+        required this.type,
+        required this.metaData,
+        required this.sponsoredData,
+        required this.data,
+        required this.rateLimit,
+        required this.hasWarning,
+    });
 
-  factory CryptoFeedModelResponses.fromMap(Map<String, dynamic> json) =>
-      CryptoFeedModelResponses(
-        message: json["Message"],
-        type: json["Type"],
-        metaData: MetaData.fromMap(json["MetaData"]),
-        sponsoredData: List<dynamic>.from(json["SponsoredData"].map((x) => x)),
-        data: List<Datum>.from(json["Data"].map((x) => Datum.fromMap(x))),
-        rateLimit: RateLimit.fromMap(json["RateLimit"]),
-        hasWarning: json["HasWarning"],
-      );
+    factory CryptoFeedModelResponses.fromJson(Map<String, dynamic> json) => _$CryptoFeedModelResponsesFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "Message": message,
-        "Type": type,
-        "MetaData": metaData.toMap(),
-        "SponsoredData": List<dynamic>.from(sponsoredData.map((x) => x)),
-        "Data": List<dynamic>.from(data.map((x) => x.toMap())),
-        "RateLimit": rateLimit.toMap(),
-        "HasWarning": hasWarning,
-      };
+    Map<String, dynamic> toJson() => _$CryptoFeedModelResponsesToJson(this);
 }
 
+@JsonSerializable()
 class Datum {
-  CoinInfo coinInfo;
-  Raw raw;
-  Display display;
+    @JsonKey(name: "CoinInfo")
+    CoinInfo coinInfo;
+    @JsonKey(name: "RAW")
+    Raw raw;
+    @JsonKey(name: "DISPLAY")
+    Display display;
 
-  Datum({
-    required this.coinInfo,
-    required this.raw,
-    required this.display,
-  });
+    Datum({
+        required this.coinInfo,
+        required this.raw,
+        required this.display,
+    });
 
-  factory Datum.fromMap(Map<String, dynamic> json) => Datum(
-        coinInfo: CoinInfo.fromMap(json["CoinInfo"]),
-        raw: Raw.fromMap(json["RAW"]),
-        display: Display.fromMap(json["DISPLAY"]),
-      );
+    factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "CoinInfo": coinInfo.toMap(),
-        "RAW": raw.toMap(),
-        "DISPLAY": display.toMap(),
-      };
+    Map<String, dynamic> toJson() => _$DatumToJson(this);
 }
 
+@JsonSerializable()
 class CoinInfo {
-  String id;
-  String name;
-  String fullName;
-  String internal;
-  String imageUrl;
-  String url;
-  String algorithm;
-  String proofType;
-  Rating rating;
-  double netHashesPerSecond;
-  int blockNumber;
-  double blockTime;
-  double blockReward;
-  DateTime assetLaunchDate;
-  double maxSupply;
-  int type;
-  String documentType;
+    @JsonKey(name: "Id")
+    String id;
+    @JsonKey(name: "Name")
+    String name;
+    @JsonKey(name: "FullName")
+    String fullName;
+    @JsonKey(name: "Internal")
+    String internal;
+    @JsonKey(name: "ImageUrl")
+    String imageUrl;
+    @JsonKey(name: "Url")
+    String url;
+    @JsonKey(name: "Algorithm")
+    String algorithm;
+    @JsonKey(name: "ProofType")
+    String proofType;
+    @JsonKey(name: "Rating")
+    Rating rating;
+    @JsonKey(name: "NetHashesPerSecond")
+    double netHashesPerSecond;
+    @JsonKey(name: "BlockNumber")
+    int blockNumber;
+    @JsonKey(name: "BlockTime")
+    double blockTime;
+    @JsonKey(name: "BlockReward")
+    double blockReward;
+    @JsonKey(name: "AssetLaunchDate")
+    DateTime assetLaunchDate;
+    @JsonKey(name: "MaxSupply")
+    double maxSupply;
+    @JsonKey(name: "Type")
+    int type;
+    @JsonKey(name: "DocumentType")
+    String documentType;
 
-  CoinInfo({
-    required this.id,
-    required this.name,
-    required this.fullName,
-    required this.internal,
-    required this.imageUrl,
-    required this.url,
-    required this.algorithm,
-    required this.proofType,
-    required this.rating,
-    required this.netHashesPerSecond,
-    required this.blockNumber,
-    required this.blockTime,
-    required this.blockReward,
-    required this.assetLaunchDate,
-    required this.maxSupply,
-    required this.type,
-    required this.documentType,
-  });
+    CoinInfo({
+        required this.id,
+        required this.name,
+        required this.fullName,
+        required this.internal,
+        required this.imageUrl,
+        required this.url,
+        required this.algorithm,
+        required this.proofType,
+        required this.rating,
+        required this.netHashesPerSecond,
+        required this.blockNumber,
+        required this.blockTime,
+        required this.blockReward,
+        required this.assetLaunchDate,
+        required this.maxSupply,
+        required this.type,
+        required this.documentType,
+    });
 
-  factory CoinInfo.fromMap(Map<String, dynamic> json) => CoinInfo(
-        id: json["Id"],
-        name: json["Name"],
-        fullName: json["FullName"],
-        internal: json["Internal"],
-        imageUrl: json["ImageUrl"],
-        url: json["Url"],
-        algorithm: json["Algorithm"],
-        proofType: json["ProofType"],
-        rating: Rating.fromMap(json["Rating"]),
-        netHashesPerSecond: json["NetHashesPerSecond"]?.toDouble(),
-        blockNumber: json["BlockNumber"],
-        blockTime: json["BlockTime"]?.toDouble(),
-        blockReward: json["BlockReward"]?.toDouble(),
-        assetLaunchDate: DateTime.parse(json["AssetLaunchDate"]),
-        maxSupply: json["MaxSupply"]?.toDouble(),
-        type: json["Type"],
-        documentType: json["DocumentType"],
-      );
+    factory CoinInfo.fromJson(Map<String, dynamic> json) => _$CoinInfoFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "Id": id,
-        "Name": name,
-        "FullName": fullName,
-        "Internal": internal,
-        "ImageUrl": imageUrl,
-        "Url": url,
-        "Algorithm": algorithm,
-        "ProofType": proofType,
-        "Rating": rating.toMap(),
-        "NetHashesPerSecond": netHashesPerSecond,
-        "BlockNumber": blockNumber,
-        "BlockTime": blockTime,
-        "BlockReward": blockReward,
-        "AssetLaunchDate":
-            "${assetLaunchDate.year.toString().padLeft(4, '0')}-${assetLaunchDate.month.toString().padLeft(2, '0')}-${assetLaunchDate.day.toString().padLeft(2, '0')}",
-        "MaxSupply": maxSupply,
-        "Type": type,
-        "DocumentType": documentType,
-      };
+    Map<String, dynamic> toJson() => _$CoinInfoToJson(this);
 }
 
+@JsonSerializable()
 class Rating {
-  Weiss weiss;
+    @JsonKey(name: "Weiss")
+    Weiss weiss;
 
-  Rating({
-    required this.weiss,
-  });
+    Rating({
+        required this.weiss,
+    });
 
-  factory Rating.fromMap(Map<String, dynamic> json) => Rating(
-        weiss: Weiss.fromMap(json["Weiss"]),
-      );
+    factory Rating.fromJson(Map<String, dynamic> json) => _$RatingFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "Weiss": weiss.toMap(),
-      };
+    Map<String, dynamic> toJson() => _$RatingToJson(this);
 }
 
+@JsonSerializable()
 class Weiss {
-  String rating;
-  String technologyAdoptionRating;
-  String marketPerformanceRating;
+    @JsonKey(name: "Rating")
+    String rating;
+    @JsonKey(name: "TechnologyAdoptionRating")
+    String technologyAdoptionRating;
+    @JsonKey(name: "MarketPerformanceRating")
+    String marketPerformanceRating;
 
-  Weiss({
-    required this.rating,
-    required this.technologyAdoptionRating,
-    required this.marketPerformanceRating,
-  });
+    Weiss({
+        required this.rating,
+        required this.technologyAdoptionRating,
+        required this.marketPerformanceRating,
+    });
 
-  factory Weiss.fromMap(Map<String, dynamic> json) => Weiss(
-        rating: json["Rating"],
-        technologyAdoptionRating: json["TechnologyAdoptionRating"],
-        marketPerformanceRating: json["MarketPerformanceRating"],
-      );
+    factory Weiss.fromJson(Map<String, dynamic> json) => _$WeissFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "Rating": rating,
-        "TechnologyAdoptionRating": technologyAdoptionRating,
-        "MarketPerformanceRating": marketPerformanceRating,
-      };
+    Map<String, dynamic> toJson() => _$WeissToJson(this);
 }
 
+@JsonSerializable()
 class Display {
-  DisplayUsd usd;
+    @JsonKey(name: "USD")
+    DisplayUsd usd;
 
-  Display({
-    required this.usd,
-  });
+    Display({
+        required this.usd,
+    });
 
-  factory Display.fromMap(Map<String, dynamic> json) => Display(
-        usd: DisplayUsd.fromMap(json["USD"]),
-      );
+    factory Display.fromJson(Map<String, dynamic> json) => _$DisplayFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "USD": usd.toMap(),
-      };
+    Map<String, dynamic> toJson() => _$DisplayToJson(this);
 }
 
+@JsonSerializable()
 class DisplayUsd {
-  String fromsymbol;
-  String tosymbol;
-  String market;
-  String lastmarket;
-  String toptiervolume24Hour;
-  String toptiervolume24Hourto;
-  String lasttradeid;
-  String price;
-  String lastupdate;
-  String lastvolume;
-  String lastvolumeto;
-  String volumehour;
-  String volumehourto;
-  String openhour;
-  String highhour;
-  String lowhour;
-  String volumeday;
-  String volumedayto;
-  String openday;
-  String highday;
-  String lowday;
-  String volume24Hour;
-  String volume24Hourto;
-  String open24Hour;
-  String high24Hour;
-  String low24Hour;
-  String change24Hour;
-  String changepct24Hour;
-  String changeday;
-  String changepctday;
-  String changehour;
-  String changepcthour;
-  String conversiontype;
-  String conversionsymbol;
-  String conversionlastupdate;
-  String supply;
-  String mktcap;
-  String mktcappenalty;
-  String circulatingsupply;
-  String circulatingsupplymktcap;
-  String totalvolume24H;
-  String totalvolume24Hto;
-  String totaltoptiervolume24H;
-  String totaltoptiervolume24Hto;
-  String imageurl;
+    @JsonKey(name: "FROMSYMBOL")
+    String fromsymbol;
+    @JsonKey(name: "TOSYMBOL")
+    String tosymbol;
+    @JsonKey(name: "MARKET")
+    String market;
+    @JsonKey(name: "LASTMARKET")
+    String lastmarket;
+    @JsonKey(name: "TOPTIERVOLUME24HOUR")
+    String toptiervolume24Hour;
+    @JsonKey(name: "TOPTIERVOLUME24HOURTO")
+    String toptiervolume24Hourto;
+    @JsonKey(name: "LASTTRADEID")
+    String lasttradeid;
+    @JsonKey(name: "PRICE")
+    String price;
+    @JsonKey(name: "LASTUPDATE")
+    String lastupdate;
+    @JsonKey(name: "LASTVOLUME")
+    String lastvolume;
+    @JsonKey(name: "LASTVOLUMETO")
+    String lastvolumeto;
+    @JsonKey(name: "VOLUMEHOUR")
+    String volumehour;
+    @JsonKey(name: "VOLUMEHOURTO")
+    String volumehourto;
+    @JsonKey(name: "OPENHOUR")
+    String openhour;
+    @JsonKey(name: "HIGHHOUR")
+    String highhour;
+    @JsonKey(name: "LOWHOUR")
+    String lowhour;
+    @JsonKey(name: "VOLUMEDAY")
+    String volumeday;
+    @JsonKey(name: "VOLUMEDAYTO")
+    String volumedayto;
+    @JsonKey(name: "OPENDAY")
+    String openday;
+    @JsonKey(name: "HIGHDAY")
+    String highday;
+    @JsonKey(name: "LOWDAY")
+    String lowday;
+    @JsonKey(name: "VOLUME24HOUR")
+    String volume24Hour;
+    @JsonKey(name: "VOLUME24HOURTO")
+    String volume24Hourto;
+    @JsonKey(name: "OPEN24HOUR")
+    String open24Hour;
+    @JsonKey(name: "HIGH24HOUR")
+    String high24Hour;
+    @JsonKey(name: "LOW24HOUR")
+    String low24Hour;
+    @JsonKey(name: "CHANGE24HOUR")
+    String change24Hour;
+    @JsonKey(name: "CHANGEPCT24HOUR")
+    String changepct24Hour;
+    @JsonKey(name: "CHANGEDAY")
+    String changeday;
+    @JsonKey(name: "CHANGEPCTDAY")
+    String changepctday;
+    @JsonKey(name: "CHANGEHOUR")
+    String changehour;
+    @JsonKey(name: "CHANGEPCTHOUR")
+    String changepcthour;
+    @JsonKey(name: "CONVERSIONTYPE")
+    String conversiontype;
+    @JsonKey(name: "CONVERSIONSYMBOL")
+    String conversionsymbol;
+    @JsonKey(name: "CONVERSIONLASTUPDATE")
+    String conversionlastupdate;
+    @JsonKey(name: "SUPPLY")
+    String supply;
+    @JsonKey(name: "MKTCAP")
+    String mktcap;
+    @JsonKey(name: "MKTCAPPENALTY")
+    String mktcappenalty;
+    @JsonKey(name: "CIRCULATINGSUPPLY")
+    String circulatingsupply;
+    @JsonKey(name: "CIRCULATINGSUPPLYMKTCAP")
+    String circulatingsupplymktcap;
+    @JsonKey(name: "TOTALVOLUME24H")
+    String totalvolume24H;
+    @JsonKey(name: "TOTALVOLUME24HTO")
+    String totalvolume24Hto;
+    @JsonKey(name: "TOTALTOPTIERVOLUME24H")
+    String totaltoptiervolume24H;
+    @JsonKey(name: "TOTALTOPTIERVOLUME24HTO")
+    String totaltoptiervolume24Hto;
+    @JsonKey(name: "IMAGEURL")
+    String imageurl;
 
-  DisplayUsd({
-    required this.fromsymbol,
-    required this.tosymbol,
-    required this.market,
-    required this.lastmarket,
-    required this.toptiervolume24Hour,
-    required this.toptiervolume24Hourto,
-    required this.lasttradeid,
-    required this.price,
-    required this.lastupdate,
-    required this.lastvolume,
-    required this.lastvolumeto,
-    required this.volumehour,
-    required this.volumehourto,
-    required this.openhour,
-    required this.highhour,
-    required this.lowhour,
-    required this.volumeday,
-    required this.volumedayto,
-    required this.openday,
-    required this.highday,
-    required this.lowday,
-    required this.volume24Hour,
-    required this.volume24Hourto,
-    required this.open24Hour,
-    required this.high24Hour,
-    required this.low24Hour,
-    required this.change24Hour,
-    required this.changepct24Hour,
-    required this.changeday,
-    required this.changepctday,
-    required this.changehour,
-    required this.changepcthour,
-    required this.conversiontype,
-    required this.conversionsymbol,
-    required this.conversionlastupdate,
-    required this.supply,
-    required this.mktcap,
-    required this.mktcappenalty,
-    required this.circulatingsupply,
-    required this.circulatingsupplymktcap,
-    required this.totalvolume24H,
-    required this.totalvolume24Hto,
-    required this.totaltoptiervolume24H,
-    required this.totaltoptiervolume24Hto,
-    required this.imageurl,
-  });
+    DisplayUsd({
+        required this.fromsymbol,
+        required this.tosymbol,
+        required this.market,
+        required this.lastmarket,
+        required this.toptiervolume24Hour,
+        required this.toptiervolume24Hourto,
+        required this.lasttradeid,
+        required this.price,
+        required this.lastupdate,
+        required this.lastvolume,
+        required this.lastvolumeto,
+        required this.volumehour,
+        required this.volumehourto,
+        required this.openhour,
+        required this.highhour,
+        required this.lowhour,
+        required this.volumeday,
+        required this.volumedayto,
+        required this.openday,
+        required this.highday,
+        required this.lowday,
+        required this.volume24Hour,
+        required this.volume24Hourto,
+        required this.open24Hour,
+        required this.high24Hour,
+        required this.low24Hour,
+        required this.change24Hour,
+        required this.changepct24Hour,
+        required this.changeday,
+        required this.changepctday,
+        required this.changehour,
+        required this.changepcthour,
+        required this.conversiontype,
+        required this.conversionsymbol,
+        required this.conversionlastupdate,
+        required this.supply,
+        required this.mktcap,
+        required this.mktcappenalty,
+        required this.circulatingsupply,
+        required this.circulatingsupplymktcap,
+        required this.totalvolume24H,
+        required this.totalvolume24Hto,
+        required this.totaltoptiervolume24H,
+        required this.totaltoptiervolume24Hto,
+        required this.imageurl,
+    });
 
-  factory DisplayUsd.fromMap(Map<String, dynamic> json) => DisplayUsd(
-        fromsymbol: json["FROMSYMBOL"],
-        tosymbol: json["TOSYMBOL"],
-        market: json["MARKET"],
-        lastmarket: json["LASTMARKET"],
-        toptiervolume24Hour: json["TOPTIERVOLUME24HOUR"],
-        toptiervolume24Hourto: json["TOPTIERVOLUME24HOURTO"],
-        lasttradeid: json["LASTTRADEID"],
-        price: json["PRICE"],
-        lastupdate: json["LASTUPDATE"],
-        lastvolume: json["LASTVOLUME"],
-        lastvolumeto: json["LASTVOLUMETO"],
-        volumehour: json["VOLUMEHOUR"],
-        volumehourto: json["VOLUMEHOURTO"],
-        openhour: json["OPENHOUR"],
-        highhour: json["HIGHHOUR"],
-        lowhour: json["LOWHOUR"],
-        volumeday: json["VOLUMEDAY"],
-        volumedayto: json["VOLUMEDAYTO"],
-        openday: json["OPENDAY"],
-        highday: json["HIGHDAY"],
-        lowday: json["LOWDAY"],
-        volume24Hour: json["VOLUME24HOUR"],
-        volume24Hourto: json["VOLUME24HOURTO"],
-        open24Hour: json["OPEN24HOUR"],
-        high24Hour: json["HIGH24HOUR"],
-        low24Hour: json["LOW24HOUR"],
-        change24Hour: json["CHANGE24HOUR"],
-        changepct24Hour: json["CHANGEPCT24HOUR"],
-        changeday: json["CHANGEDAY"],
-        changepctday: json["CHANGEPCTDAY"],
-        changehour: json["CHANGEHOUR"],
-        changepcthour: json["CHANGEPCTHOUR"],
-        conversiontype: json["CONVERSIONTYPE"],
-        conversionsymbol: json["CONVERSIONSYMBOL"],
-        conversionlastupdate: json["CONVERSIONLASTUPDATE"],
-        supply: json["SUPPLY"],
-        mktcap: json["MKTCAP"],
-        mktcappenalty: json["MKTCAPPENALTY"],
-        circulatingsupply: json["CIRCULATINGSUPPLY"],
-        circulatingsupplymktcap: json["CIRCULATINGSUPPLYMKTCAP"],
-        totalvolume24H: json["TOTALVOLUME24H"],
-        totalvolume24Hto: json["TOTALVOLUME24HTO"],
-        totaltoptiervolume24H: json["TOTALTOPTIERVOLUME24H"],
-        totaltoptiervolume24Hto: json["TOTALTOPTIERVOLUME24HTO"],
-        imageurl: json["IMAGEURL"],
-      );
+    factory DisplayUsd.fromJson(Map<String, dynamic> json) => _$DisplayUsdFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "FROMSYMBOL": fromsymbol,
-        "TOSYMBOL": tosymbol,
-        "MARKET": market,
-        "LASTMARKET": lastmarket,
-        "TOPTIERVOLUME24HOUR": toptiervolume24Hour,
-        "TOPTIERVOLUME24HOURTO": toptiervolume24Hourto,
-        "LASTTRADEID": lasttradeid,
-        "PRICE": price,
-        "LASTUPDATE": lastupdate,
-        "LASTVOLUME": lastvolume,
-        "LASTVOLUMETO": lastvolumeto,
-        "VOLUMEHOUR": volumehour,
-        "VOLUMEHOURTO": volumehourto,
-        "OPENHOUR": openhour,
-        "HIGHHOUR": highhour,
-        "LOWHOUR": lowhour,
-        "VOLUMEDAY": volumeday,
-        "VOLUMEDAYTO": volumedayto,
-        "OPENDAY": openday,
-        "HIGHDAY": highday,
-        "LOWDAY": lowday,
-        "VOLUME24HOUR": volume24Hour,
-        "VOLUME24HOURTO": volume24Hourto,
-        "OPEN24HOUR": open24Hour,
-        "HIGH24HOUR": high24Hour,
-        "LOW24HOUR": low24Hour,
-        "CHANGE24HOUR": change24Hour,
-        "CHANGEPCT24HOUR": changepct24Hour,
-        "CHANGEDAY": changeday,
-        "CHANGEPCTDAY": changepctday,
-        "CHANGEHOUR": changehour,
-        "CHANGEPCTHOUR": changepcthour,
-        "CONVERSIONTYPE": conversiontype,
-        "CONVERSIONSYMBOL": conversionsymbol,
-        "CONVERSIONLASTUPDATE": conversionlastupdate,
-        "SUPPLY": supply,
-        "MKTCAP": mktcap,
-        "MKTCAPPENALTY": mktcappenalty,
-        "CIRCULATINGSUPPLY": circulatingsupply,
-        "CIRCULATINGSUPPLYMKTCAP": circulatingsupplymktcap,
-        "TOTALVOLUME24H": totalvolume24H,
-        "TOTALVOLUME24HTO": totalvolume24Hto,
-        "TOTALTOPTIERVOLUME24H": totaltoptiervolume24H,
-        "TOTALTOPTIERVOLUME24HTO": totaltoptiervolume24Hto,
-        "IMAGEURL": imageurl,
-      };
+    Map<String, dynamic> toJson() => _$DisplayUsdToJson(this);
 }
 
+@JsonSerializable()
 class Raw {
-  RawUsd usd;
+    @JsonKey(name: "USD")
+    RawUsd usd;
 
-  Raw({
-    required this.usd,
-  });
+    Raw({
+        required this.usd,
+    });
 
-  factory Raw.fromMap(Map<String, dynamic> json) => Raw(
-        usd: RawUsd.fromMap(json["USD"]),
-      );
+    factory Raw.fromJson(Map<String, dynamic> json) => _$RawFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "USD": usd.toMap(),
-      };
+    Map<String, dynamic> toJson() => _$RawToJson(this);
 }
 
+@JsonSerializable()
 class RawUsd {
-  String type;
-  String market;
-  String fromsymbol;
-  String tosymbol;
-  String flags;
-  String lastmarket;
-  double median;
-  double toptiervolume24Hour;
-  double toptiervolume24Hourto;
-  String lasttradeid;
-  double price;
-  int lastupdate;
-  double lastvolume;
-  double lastvolumeto;
-  double volumehour;
-  double volumehourto;
-  double openhour;
-  double highhour;
-  double lowhour;
-  double volumeday;
-  double volumedayto;
-  double openday;
-  double highday;
-  double lowday;
-  double volume24Hour;
-  double volume24Hourto;
-  double open24Hour;
-  double high24Hour;
-  double low24Hour;
-  double change24Hour;
-  double changepct24Hour;
-  double changeday;
-  double changepctday;
-  double changehour;
-  double changepcthour;
-  String conversiontype;
-  String conversionsymbol;
-  int conversionlastupdate;
-  double supply;
-  double mktcap;
-  int mktcappenalty;
-  double circulatingsupply;
-  double circulatingsupplymktcap;
-  double totalvolume24H;
-  double totalvolume24Hto;
-  double totaltoptiervolume24H;
-  double totaltoptiervolume24Hto;
-  String imageurl;
+    @JsonKey(name: "TYPE")
+    String type;
+    @JsonKey(name: "MARKET")
+    String market;
+    @JsonKey(name: "FROMSYMBOL")
+    String fromsymbol;
+    @JsonKey(name: "TOSYMBOL")
+    String tosymbol;
+    @JsonKey(name: "FLAGS")
+    String flags;
+    @JsonKey(name: "LASTMARKET")
+    String lastmarket;
+    @JsonKey(name: "MEDIAN")
+    double median;
+    @JsonKey(name: "TOPTIERVOLUME24HOUR")
+    double toptiervolume24Hour;
+    @JsonKey(name: "TOPTIERVOLUME24HOURTO")
+    double toptiervolume24Hourto;
+    @JsonKey(name: "LASTTRADEID")
+    String lasttradeid;
+    @JsonKey(name: "PRICE")
+    double price;
+    @JsonKey(name: "LASTUPDATE")
+    int lastupdate;
+    @JsonKey(name: "LASTVOLUME")
+    double lastvolume;
+    @JsonKey(name: "LASTVOLUMETO")
+    double lastvolumeto;
+    @JsonKey(name: "VOLUMEHOUR")
+    double volumehour;
+    @JsonKey(name: "VOLUMEHOURTO")
+    double volumehourto;
+    @JsonKey(name: "OPENHOUR")
+    double openhour;
+    @JsonKey(name: "HIGHHOUR")
+    double highhour;
+    @JsonKey(name: "LOWHOUR")
+    double lowhour;
+    @JsonKey(name: "VOLUMEDAY")
+    double volumeday;
+    @JsonKey(name: "VOLUMEDAYTO")
+    double volumedayto;
+    @JsonKey(name: "OPENDAY")
+    double openday;
+    @JsonKey(name: "HIGHDAY")
+    double highday;
+    @JsonKey(name: "LOWDAY")
+    double lowday;
+    @JsonKey(name: "VOLUME24HOUR")
+    double volume24Hour;
+    @JsonKey(name: "VOLUME24HOURTO")
+    double volume24Hourto;
+    @JsonKey(name: "OPEN24HOUR")
+    double open24Hour;
+    @JsonKey(name: "HIGH24HOUR")
+    double high24Hour;
+    @JsonKey(name: "LOW24HOUR")
+    double low24Hour;
+    @JsonKey(name: "CHANGE24HOUR")
+    double change24Hour;
+    @JsonKey(name: "CHANGEPCT24HOUR")
+    double changepct24Hour;
+    @JsonKey(name: "CHANGEDAY")
+    double changeday;
+    @JsonKey(name: "CHANGEPCTDAY")
+    double changepctday;
+    @JsonKey(name: "CHANGEHOUR")
+    double changehour;
+    @JsonKey(name: "CHANGEPCTHOUR")
+    double changepcthour;
+    @JsonKey(name: "CONVERSIONTYPE")
+    String conversiontype;
+    @JsonKey(name: "CONVERSIONSYMBOL")
+    String conversionsymbol;
+    @JsonKey(name: "CONVERSIONLASTUPDATE")
+    int conversionlastupdate;
+    @JsonKey(name: "SUPPLY")
+    double supply;
+    @JsonKey(name: "MKTCAP")
+    double mktcap;
+    @JsonKey(name: "MKTCAPPENALTY")
+    int mktcappenalty;
+    @JsonKey(name: "CIRCULATINGSUPPLY")
+    double circulatingsupply;
+    @JsonKey(name: "CIRCULATINGSUPPLYMKTCAP")
+    double circulatingsupplymktcap;
+    @JsonKey(name: "TOTALVOLUME24H")
+    double totalvolume24H;
+    @JsonKey(name: "TOTALVOLUME24HTO")
+    double totalvolume24Hto;
+    @JsonKey(name: "TOTALTOPTIERVOLUME24H")
+    double totaltoptiervolume24H;
+    @JsonKey(name: "TOTALTOPTIERVOLUME24HTO")
+    double totaltoptiervolume24Hto;
+    @JsonKey(name: "IMAGEURL")
+    String imageurl;
 
-  RawUsd({
-    required this.type,
-    required this.market,
-    required this.fromsymbol,
-    required this.tosymbol,
-    required this.flags,
-    required this.lastmarket,
-    required this.median,
-    required this.toptiervolume24Hour,
-    required this.toptiervolume24Hourto,
-    required this.lasttradeid,
-    required this.price,
-    required this.lastupdate,
-    required this.lastvolume,
-    required this.lastvolumeto,
-    required this.volumehour,
-    required this.volumehourto,
-    required this.openhour,
-    required this.highhour,
-    required this.lowhour,
-    required this.volumeday,
-    required this.volumedayto,
-    required this.openday,
-    required this.highday,
-    required this.lowday,
-    required this.volume24Hour,
-    required this.volume24Hourto,
-    required this.open24Hour,
-    required this.high24Hour,
-    required this.low24Hour,
-    required this.change24Hour,
-    required this.changepct24Hour,
-    required this.changeday,
-    required this.changepctday,
-    required this.changehour,
-    required this.changepcthour,
-    required this.conversiontype,
-    required this.conversionsymbol,
-    required this.conversionlastupdate,
-    required this.supply,
-    required this.mktcap,
-    required this.mktcappenalty,
-    required this.circulatingsupply,
-    required this.circulatingsupplymktcap,
-    required this.totalvolume24H,
-    required this.totalvolume24Hto,
-    required this.totaltoptiervolume24H,
-    required this.totaltoptiervolume24Hto,
-    required this.imageurl,
-  });
+    RawUsd({
+        required this.type,
+        required this.market,
+        required this.fromsymbol,
+        required this.tosymbol,
+        required this.flags,
+        required this.lastmarket,
+        required this.median,
+        required this.toptiervolume24Hour,
+        required this.toptiervolume24Hourto,
+        required this.lasttradeid,
+        required this.price,
+        required this.lastupdate,
+        required this.lastvolume,
+        required this.lastvolumeto,
+        required this.volumehour,
+        required this.volumehourto,
+        required this.openhour,
+        required this.highhour,
+        required this.lowhour,
+        required this.volumeday,
+        required this.volumedayto,
+        required this.openday,
+        required this.highday,
+        required this.lowday,
+        required this.volume24Hour,
+        required this.volume24Hourto,
+        required this.open24Hour,
+        required this.high24Hour,
+        required this.low24Hour,
+        required this.change24Hour,
+        required this.changepct24Hour,
+        required this.changeday,
+        required this.changepctday,
+        required this.changehour,
+        required this.changepcthour,
+        required this.conversiontype,
+        required this.conversionsymbol,
+        required this.conversionlastupdate,
+        required this.supply,
+        required this.mktcap,
+        required this.mktcappenalty,
+        required this.circulatingsupply,
+        required this.circulatingsupplymktcap,
+        required this.totalvolume24H,
+        required this.totalvolume24Hto,
+        required this.totaltoptiervolume24H,
+        required this.totaltoptiervolume24Hto,
+        required this.imageurl,
+    });
 
-  factory RawUsd.fromMap(Map<String, dynamic> json) => RawUsd(
-        type: json["TYPE"],
-        market: json["MARKET"],
-        fromsymbol: json["FROMSYMBOL"],
-        tosymbol: json["TOSYMBOL"],
-        flags: json["FLAGS"],
-        lastmarket: json["LASTMARKET"],
-        median: json["MEDIAN"]?.toDouble(),
-        toptiervolume24Hour: json["TOPTIERVOLUME24HOUR"]?.toDouble(),
-        toptiervolume24Hourto: json["TOPTIERVOLUME24HOURTO"]?.toDouble(),
-        lasttradeid: json["LASTTRADEID"],
-        price: json["PRICE"]?.toDouble(),
-        lastupdate: json["LASTUPDATE"],
-        lastvolume: json["LASTVOLUME"]?.toDouble(),
-        lastvolumeto: json["LASTVOLUMETO"]?.toDouble(),
-        volumehour: json["VOLUMEHOUR"]?.toDouble(),
-        volumehourto: json["VOLUMEHOURTO"]?.toDouble(),
-        openhour: json["OPENHOUR"]?.toDouble(),
-        highhour: json["HIGHHOUR"]?.toDouble(),
-        lowhour: json["LOWHOUR"]?.toDouble(),
-        volumeday: json["VOLUMEDAY"]?.toDouble(),
-        volumedayto: json["VOLUMEDAYTO"]?.toDouble(),
-        openday: json["OPENDAY"]?.toDouble(),
-        highday: json["HIGHDAY"]?.toDouble(),
-        lowday: json["LOWDAY"]?.toDouble(),
-        volume24Hour: json["VOLUME24HOUR"]?.toDouble(),
-        volume24Hourto: json["VOLUME24HOURTO"]?.toDouble(),
-        open24Hour: json["OPEN24HOUR"]?.toDouble(),
-        high24Hour: json["HIGH24HOUR"]?.toDouble(),
-        low24Hour: json["LOW24HOUR"]?.toDouble(),
-        change24Hour: json["CHANGE24HOUR"]?.toDouble(),
-        changepct24Hour: json["CHANGEPCT24HOUR"]?.toDouble(),
-        changeday: json["CHANGEDAY"]?.toDouble(),
-        changepctday: json["CHANGEPCTDAY"]?.toDouble(),
-        changehour: json["CHANGEHOUR"]?.toDouble(),
-        changepcthour: json["CHANGEPCTHOUR"]?.toDouble(),
-        conversiontype: json["CONVERSIONTYPE"],
-        conversionsymbol: json["CONVERSIONSYMBOL"],
-        conversionlastupdate: json["CONVERSIONLASTUPDATE"],
-        supply: json["SUPPLY"]?.toDouble(),
-        mktcap: json["MKTCAP"]?.toDouble(),
-        mktcappenalty: json["MKTCAPPENALTY"],
-        circulatingsupply: json["CIRCULATINGSUPPLY"]?.toDouble(),
-        circulatingsupplymktcap: json["CIRCULATINGSUPPLYMKTCAP"]?.toDouble(),
-        totalvolume24H: json["TOTALVOLUME24H"]?.toDouble(),
-        totalvolume24Hto: json["TOTALVOLUME24HTO"]?.toDouble(),
-        totaltoptiervolume24H: json["TOTALTOPTIERVOLUME24H"]?.toDouble(),
-        totaltoptiervolume24Hto: json["TOTALTOPTIERVOLUME24HTO"]?.toDouble(),
-        imageurl: json["IMAGEURL"],
-      );
+    factory RawUsd.fromJson(Map<String, dynamic> json) => _$RawUsdFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "TYPE": type,
-        "MARKET": market,
-        "FROMSYMBOL": fromsymbol,
-        "TOSYMBOL": tosymbol,
-        "FLAGS": flags,
-        "LASTMARKET": lastmarket,
-        "MEDIAN": median,
-        "TOPTIERVOLUME24HOUR": toptiervolume24Hour,
-        "TOPTIERVOLUME24HOURTO": toptiervolume24Hourto,
-        "LASTTRADEID": lasttradeid,
-        "PRICE": price,
-        "LASTUPDATE": lastupdate,
-        "LASTVOLUME": lastvolume,
-        "LASTVOLUMETO": lastvolumeto,
-        "VOLUMEHOUR": volumehour,
-        "VOLUMEHOURTO": volumehourto,
-        "OPENHOUR": openhour,
-        "HIGHHOUR": highhour,
-        "LOWHOUR": lowhour,
-        "VOLUMEDAY": volumeday,
-        "VOLUMEDAYTO": volumedayto,
-        "OPENDAY": openday,
-        "HIGHDAY": highday,
-        "LOWDAY": lowday,
-        "VOLUME24HOUR": volume24Hour,
-        "VOLUME24HOURTO": volume24Hourto,
-        "OPEN24HOUR": open24Hour,
-        "HIGH24HOUR": high24Hour,
-        "LOW24HOUR": low24Hour,
-        "CHANGE24HOUR": change24Hour,
-        "CHANGEPCT24HOUR": changepct24Hour,
-        "CHANGEDAY": changeday,
-        "CHANGEPCTDAY": changepctday,
-        "CHANGEHOUR": changehour,
-        "CHANGEPCTHOUR": changepcthour,
-        "CONVERSIONTYPE": conversiontype,
-        "CONVERSIONSYMBOL": conversionsymbol,
-        "CONVERSIONLASTUPDATE": conversionlastupdate,
-        "SUPPLY": supply,
-        "MKTCAP": mktcap,
-        "MKTCAPPENALTY": mktcappenalty,
-        "CIRCULATINGSUPPLY": circulatingsupply,
-        "CIRCULATINGSUPPLYMKTCAP": circulatingsupplymktcap,
-        "TOTALVOLUME24H": totalvolume24H,
-        "TOTALVOLUME24HTO": totalvolume24Hto,
-        "TOTALTOPTIERVOLUME24H": totaltoptiervolume24H,
-        "TOTALTOPTIERVOLUME24HTO": totaltoptiervolume24Hto,
-        "IMAGEURL": imageurl,
-      };
+    Map<String, dynamic> toJson() => _$RawUsdToJson(this);
 }
 
+@JsonSerializable()
 class MetaData {
-  int count;
+    @JsonKey(name: "Count")
+    int count;
 
-  MetaData({
-    required this.count,
-  });
+    MetaData({
+        required this.count,
+    });
 
-  factory MetaData.fromMap(Map<String, dynamic> json) => MetaData(
-        count: json["Count"],
-      );
+    factory MetaData.fromJson(Map<String, dynamic> json) => _$MetaDataFromJson(json);
 
-  Map<String, dynamic> toMap() => {
-        "Count": count,
-      };
+    Map<String, dynamic> toJson() => _$MetaDataToJson(this);
 }
 
+@JsonSerializable()
 class RateLimit {
-  RateLimit();
+    RateLimit();
 
-  factory RateLimit.fromMap(Map<String, dynamic> json) => RateLimit();
+    factory RateLimit.fromJson(Map<String, dynamic> json) => _$RateLimitFromJson(json);
 
-  Map<String, dynamic> toMap() => {};
+    Map<String, dynamic> toJson() => _$RateLimitToJson(this);
 }

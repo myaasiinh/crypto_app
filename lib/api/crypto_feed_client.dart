@@ -11,3 +11,4 @@ class CryptoFeedClientFailure implements CryptoFeedClient {
   final dynamic error;
   CryptoFeedClientFailure(this.error);
 }
+

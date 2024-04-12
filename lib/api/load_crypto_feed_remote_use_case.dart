@@ -41,3 +41,4 @@ class LoadCryptoFeedRemoteUseCases implements LoadCryptoFeedUseCases {
     }
   }
 }
+
