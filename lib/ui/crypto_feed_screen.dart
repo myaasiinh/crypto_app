@@ -1,10 +1,11 @@
-// ignore_for_file: library_private_types_in_public_api, prefer_const_constructors
+// ignore_for_file: library_private_types_in_public_api
 
 import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:crypto_app/domain/crypto_feed.dart';
+import 'package:crypto_app/presentation/cryptofeed_viewmodel_state.dart';
 import 'package:flutter/material.dart';
-import 'package:crypto_app/presentation/crpytofeed_item_viewmodel.dart';
+import 'package:crypto_app/presentation/crpytofeed_viewmodel.dart';
 
 class CryptoFeedScreen extends StatefulWidget {
   const CryptoFeedScreen({super.key});
@@ -26,9 +27,15 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
     _streamController = StreamController<CryptoFeedUiState>();
     _stream = _streamController.stream;
     viewModel.addListener(() {
-      _streamController.add(viewModel.cryptoFeedUiState);
+      _streamController
+          .add(viewModel.cryptoFeedViewModelState.toCryptoFeedUiState());
     });
-    viewModel.loadCryptoFeed();
+  }
+
+  @override
+  void dispose() {
+    _streamController.close();
+    super.dispose();
   }
 
   Future<void> _handleRefresh() async {
@@ -41,8 +48,7 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: AppBar(
-          backgroundColor: const Color.fromRGBO(
-              95, 93, 156, 1.0),
+          backgroundColor: const Color.fromRGBO(95, 93, 156, 1.0),
           centerTitle: true,
           title: const Text(
             'Crypto Feed',
@@ -64,6 +70,7 @@ class _CryptoFeedScreenState extends State<CryptoFeedScreen> {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               final state = snapshot.data!;
+              viewModel.cryptoFeedItems;
               return _buildBody(state);
             }
           },
@@ -97,7 +104,7 @@ class CryptoFeedList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: items.length,
-      separatorBuilder: (BuildContext context, int index) => Divider(
+      separatorBuilder: (BuildContext context, int index) => const Divider(
         thickness: 100,
         height: 2,
         color: Colors.amber,
@@ -114,10 +121,8 @@ class CryptoFeedList extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.only(top: 10, bottom: 10),
           child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                  bottom: BorderSide(
-                      color: Colors.grey)),
+            decoration: const BoxDecoration(
+              border: Border(bottom: BorderSide(color: Colors.grey)),
             ),
             child: Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -128,8 +133,7 @@ class CryptoFeedList extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 16),
                     child: _buildIcon(feedItem.coinInfo),
                   ),
-                  const SizedBox(
-                      width: 8),
+                  const SizedBox(width: 8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

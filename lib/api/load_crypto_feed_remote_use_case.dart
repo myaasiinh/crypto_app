@@ -1,6 +1,6 @@
 import 'package:crypto_app/api/crypto_feed_client.dart';
 import 'package:crypto_app/api/remote_crpyto_feed.dart';
-import 'package:crypto_app/domain/crypto_feed_mapper_extension.dart';
+import 'package:crypto_app/domain/crypto_feed_mapper_ext.dart';
 import 'package:crypto_app/domain/load_crpyto_feed_use_case.dart';
 import 'package:flutter/foundation.dart';
 
